@@ -1,0 +1,40 @@
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+node_modules/
+*.log
+.DS_Store
+__MACOSX/
+
+# Generated media and local raw experiments belong on Hugging Face or LFS.
+/models/
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# Local and generated artifacts.
+/results/
+/output/
+/tmp/
+/camera_ready_paper_id_499.zip
+/camera_ready_paper_id_499/
+
+# Canonical benchmark data is distributed through Hugging Face.
+/data/autorubric/
+/data/final_qa/
+/data/qa/
+/data/vgif_bench/vgif_bench.jsonl
+
+# Locally generated result-selection and audit artifacts.
+/data/results_manifest.csv
+/data/results_manifest.json
+/data/score_normalization_audit.json

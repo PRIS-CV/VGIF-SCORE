@@ -1,0 +1,52 @@
+{
+  "samples": 223,
+  "nodes": 3656,
+  "edges": 3940,
+  "qa_pairs": 3445,
+  "rubric_dimensions": 892,
+  "average_nodes_per_prompt": 16.3946,
+  "average_edges_per_prompt": 17.6682,
+  "categories": {
+    "Commercial & Product Showcase": 31,
+    "Creative & Surreal Expression": 28,
+    "Dynamics & Physical Interaction": 30,
+    "Emotion & Atmosphere Expression": 26,
+    "Narrative & Cinematic Storytelling": 30,
+    "Performance, Sports & Embodied Motion": 24,
+    "Spatial Composition & Scene Orchestration": 30,
+    "Travel, Nature & Living World": 24
+  },
+  "node_types": {
+    "action": 861,
+    "attribute": 366,
+    "causal": 392,
+    "entity": 1118,
+    "location": 426,
+    "state": 493
+  },
+  "edge_types": {
+    "causal_dependency": 551,
+    "solid_dependency": 3389
+  },
+  "graph_depth_distribution": {
+    "2": 3,
+    "3": 15,
+    "4": 36,
+    "5": 43,
+    "6": 50,
+    "7": 39,
+    "8": 18,
+    "9": 11,
+    "10": 7,
+    "11": 1
+  },
+  "multi_parent_distribution": {
+    "0": 958,
+    "1": 1069,
+    "2": 976,
+    "3": 508,
+    "4": 127,
+    "5": 14,
+    "6": 4
+  }
+}

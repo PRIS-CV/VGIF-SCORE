@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-04-18T00:00:00.000Z",
+  "source_path": "D:\\Project\\VGIF0416\\kling_t2v\\outputs\\kling_v3_720p_5s\\20260416_134733\\selected_prompts.json",
+  "count": 1,
+  "selected_prompts": [
+    {
+      "sample_index": 5,
+      "macro_domain": "Narrative & Cinematic Storytelling (叙事与影视创作)",
+      "micro_domain": "Suspense and Discovery Moments (悬念与发现时刻)",
+      "prompt": "Shoot a suspenseful museum corridor scene at closing time. A security guard with a flashlight and a curator holding a tablet stop before an ancient portrait. The guard notices a faint draft, presses a hidden latch in the frame, and the painting swings open to reveal a narrow passage. As the air rushes out, the hallway lights flicker and the curator's tablet screen glitches, forcing them to step back in alarm.",
+      "complexity": {
+        "level": "high",
+        "num_entities": 4,
+        "num_primary_actions": 3,
+        "num_state_changes": 3,
+        "num_causal_links": 3
+      }
+    }
+  ]
+}

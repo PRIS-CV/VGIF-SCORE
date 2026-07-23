@@ -1,0 +1,18 @@
+VGIF-Bench Dataset License
+
+Copyright (c) 2026 VGIF-Score Authors.
+
+The VGIF-Bench dataset, including its prompts, ST-DAG annotations,
+dependency-aware QA pairs, and instruction-conditioned AutoRubric
+specifications, is licensed under the Creative Commons
+Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+
+You may share and adapt the dataset for non-commercial purposes provided that
+you give appropriate credit, link to the license, and indicate whether changes
+were made. Commercial use is not permitted under this license.
+
+License deed and legal code:
+https://creativecommons.org/licenses/by-nc/4.0/
+
+Please cite the VGIF-Score paper when using VGIF-Bench in academic work. The
+recommended BibTeX entry is provided in the dataset card.
