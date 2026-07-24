@@ -1,20 +1,50 @@
-# VGIF-Score
+<div align="center">
+  <h1>VGIF-Score</h1>
+  <p><strong>Interpretable and Diagnostic Evaluation of Spatio-Temporal<br>Instruction Following in Video Generation</strong></p>
+  <p>Songyu Xu, Xin Wang, Qiang Chen, Xinran Wang, Muxi Diao,<br>Yuxuan Zhang, Kongming Liang, Rui Lin, and Zhanyu Ma</p>
+  <p>
+    <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://img.shields.io/badge/Project-Page-0f1714?style=for-the-badge&logo=githubpages&logoColor=white" alt="Project page"></a>
+    <a href="https://arxiv.org/abs/2607.13527"><img src="https://img.shields.io/badge/arXiv-2607.13527-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv paper"></a>
+    <a href="https://huggingface.co/datasets/Notyourkev/VGIF-Bench"><img src="https://img.shields.io/badge/VGIF--Bench-Dataset-ffcc4d?style=for-the-badge&logo=huggingface&logoColor=111111" alt="VGIF-Bench dataset"></a>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/Models-14-2f75b5?style=flat-square" alt="14 evaluated models">
+    <img src="https://img.shields.io/badge/Domains-8%20macro%20%7C%2038%20micro-3a8b67?style=flat-square" alt="8 macro and 38 micro domains">
+    <img src="https://img.shields.io/badge/Code-Apache--2.0-6d5b8c?style=flat-square" alt="Apache 2.0 code license">
+    <img src="https://img.shields.io/badge/Data-CC%20BY--NC%204.0-9a6a31?style=flat-square" alt="CC BY-NC 4.0 dataset license">
+  </p>
+</div>
 
-[Project page](https://pris-cv.github.io/VGIF-SCORE/) |
-[Paper](https://arxiv.org/abs/2607.13527) |
-[Code](https://github.com/PRIS-CV/VGIF-SCORE) |
-[VGIF-Bench](https://huggingface.co/datasets/Notyourkev/VGIF-Bench)
+<p align="center">
+  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="docs/assets/domain_collage.jpg" width="100%" alt="Generated video first frames spanning eight VGIF-Bench domains"></a>
+</p>
+<p align="center"><sub>Generated video first frames across the eight VGIF-Bench macro domains. Open the project page for interactive diagnosis and leaderboards.</sub></p>
 
-VGIF-Score is an interpretable and diagnostic framework for evaluating
-spatio-temporal instruction following in video generation. It combines:
+VGIF-Score evaluates whether a generated video completes the requested
+spatio-temporal structure and whether the result satisfies prompt-conditioned
+perceptual criteria. It combines dependency-aware QA over a Spatio-Temporal
+Directed Acyclic Graph (ST-DAG) with an instruction-conditioned AutoRubric.
 
-- objective completion measured by dependency-aware QA over a Spatio-Temporal
-  Directed Acyclic Graph (ST-DAG); and
-- subjective satisfaction measured by an instruction-conditioned AutoRubric.
+## At a Glance
 
-The accompanying VGIF-Bench contains 223 dependency-rich prompts, 3,656 ST-DAG
-nodes, 3,940 edges, 3,445 QA pairs, and 892 prompt-conditioned rubric
-dimensions.
+| Prompts | Macro domains | Micro domains | ST-DAG nodes | Dependency edges | QA pairs | Models |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **223** | **8** | **38** | **3,656** | **3,940** | **3,445** | **14** |
+
+## How It Works
+
+<p align="center">
+  <img src="docs/assets/vgif_pipeline_final.png" width="100%" alt="VGIF-Score evaluation pipeline">
+</p>
+
+- **Objective completion:** atomic entities, attributes, locations, actions,
+  states, and causal relations are evaluated with dependency-aware QA.
+- **Subjective satisfaction:** four prompt-specific AutoRubric dimensions
+  evaluate cinematography, visual purity, motion smoothness, and physics
+  adherence on a 1-5 scale.
+- **Interpretable diagnosis:** failures are localized to ST-DAG nodes and
+  propagated through their Boolean dependencies instead of being hidden by a
+  single holistic score.
 
 ## Score Definition
 
@@ -59,6 +89,28 @@ dependencies are evaluated as a DAG and need not follow JSON list order.
 
 Legacy result files may contain a fifth `Rub` field. It is not part of the
 paper score and is ignored by the current scoring code.
+
+## Benchmark Coverage
+
+<p align="center">
+  <img src="docs/assets/prompt_statistics.png" width="100%" alt="VGIF-Bench prompt, graph, and node statistics">
+</p>
+
+VGIF-Bench spans eight macro domains and 38 fine-grained capabilities. The
+camera-ready figure above summarizes category coverage, graph depth, node-type
+distribution, and structural entanglement.
+
+## Interactive Diagnosis
+
+<p align="center">
+  <a href="https://pris-cv.github.io/VGIF-SCORE/#case-explorer"><img src="docs/assets/fig4_Dependency-aware_causal_chain_diagnosis.png" width="100%" alt="Dependency-aware causal chain diagnosis comparing Kling-V3 and CogVideoX-1.5"></a>
+</p>
+
+The [interactive case explorer](https://pris-cv.github.io/VGIF-SCORE/#case-explorer)
+traces one prompt from its atomic ST-DAG and generated videos to per-node
+pass, miss, and dependency-blocked states. The project page also includes the
+aggregate paper leaderboard and interactive 8/38-domain analysis; bulk
+per-sample benchmark outputs are not published.
 
 ## Repository Layout
 
