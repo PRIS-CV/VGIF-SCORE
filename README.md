@@ -1,5 +1,10 @@
 # VGIF-Score
 
+[Project page](https://pris-cv.github.io/VGIF-SCORE/) |
+[Paper](https://arxiv.org/abs/2607.13527) |
+[Code](https://github.com/PRIS-CV/VGIF-SCORE) |
+[VGIF-Bench](https://huggingface.co/datasets/Notyourkev/VGIF-Bench)
+
 VGIF-Score is an interpretable and diagnostic framework for evaluating
 spatio-temporal instruction following in video generation. It combines:
 
@@ -55,20 +60,6 @@ dependencies are evaluated as a DAG and need not follow JSON list order.
 Legacy result files may contain a fifth `Rub` field. It is not part of the
 paper score and is ignored by the current scoring code.
 
-### Camera-ready normalization note
-
-The evaluation code uses `rating / 5` to reproduce the subjective and
-VGIF-Score values reported in the finalized camera-ready tables. The equation
-printed in the paper uses `(rating - 1) / 4`; these two conventions are not
-numerically equivalent. Because the paper results are final, the released code
-treats the reported-table convention as the canonical reproduction protocol.
-Run the following to reproduce the comparison recorded in
-`data/score_normalization_audit.json`:
-
-```powershell
-python code/benchmark/audit_score_normalization.py
-```
-
 ## Repository Layout
 
 ```text
@@ -82,6 +73,7 @@ data/
   vgif_bench/  Hugging Face-ready JSONL export and statistics
   final_qa/    Curated QA outputs
 models/        Local generated videos and raw evaluation outputs (not for Git)
+docs/          Static project page and camera-ready figure assets
 camera_ready_paper_id_499/  Camera-ready PDF and LaTeX sources
 ```
 

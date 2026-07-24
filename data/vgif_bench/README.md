@@ -1,6 +1,7 @@
 ---
 pretty_name: VGIF-Bench
 license: cc-by-nc-4.0
+homepage: https://pris-cv.github.io/VGIF-SCORE/
 task_categories:
   - text-to-video
 tags:
@@ -16,6 +17,10 @@ configs:
 ---
 
 # VGIF-Bench
+
+[Project page](https://pris-cv.github.io/VGIF-SCORE/) |
+[Paper](https://arxiv.org/abs/2607.13527) |
+[Source code](https://github.com/PRIS-CV/VGIF-SCORE)
 
 VGIF-Bench evaluates long, structurally entangled text-to-video instructions.
 Each sample contains the prompt, its ST-DAG decomposition, dependency-aware QA

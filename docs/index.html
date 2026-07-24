@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VGIF-Score is an interpretable and diagnostic evaluation framework for spatio-temporal instruction following in video generation.">
+  <meta name="theme-color" content="#111715">
+  <meta property="og:title" content="VGIF-Score">
+  <meta property="og:description" content="Interpretable and diagnostic evaluation of spatio-temporal instruction following in video generation.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/domain_collage.jpg">
+  <title>VGIF-Score | Video Generation Instruction Following</title>
+  <link rel="stylesheet" href="styles.css?v=20260724">
+  <script src="app.js?v=20260724" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="VGIF-Score home">
+        <span class="brand-mark" aria-hidden="true">V</span>
+        <span>VGIF-Score</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#method">Method</a>
+        <a href="#case-explorer">Case study</a>
+        <a href="#leaderboard">Leaderboard</a>
+        <a href="#findings">Findings</a>
+      </nav>
+      <a class="nav-action" href="https://github.com/PRIS-CV/VGIF-SCORE" target="_blank" rel="noreferrer">View code</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-content page-shell">
+        <p class="eyebrow">Interpretable video generation evaluation</p>
+        <h1 id="hero-title">VGIF-Score</h1>
+        <p class="hero-lead">Diagnostic evaluation of spatio-temporal instruction following, from atomic prompt constraints to causal failure propagation.</p>
+        <p class="authors">Songyu Xu, Xin Wang, Qiang Chen, Xinran Wang, Muxi Diao, Yuxuan Zhang, Kongming Liang, Rui Lin, and Zhanyu Ma</p>
+        <div class="hero-actions" aria-label="Project resources">
+          <a class="button button-primary" href="https://arxiv.org/abs/2607.13527" target="_blank" rel="noreferrer">Read paper <span aria-hidden="true">&#8599;</span></a>
+          <a class="button button-secondary" href="https://github.com/PRIS-CV/VGIF-SCORE" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
+          <a class="button button-secondary" href="https://huggingface.co/datasets/Notyourkev/VGIF-Bench" target="_blank" rel="noreferrer">Dataset <span aria-hidden="true">&#8599;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-band" aria-label="VGIF-Bench statistics">
+      <div class="stats-grid page-shell">
+        <div class="stat"><strong>223</strong><span>dependency-rich prompts</span></div>
+        <div class="stat"><strong>3,656</strong><span>ST-DAG nodes</span></div>
+        <div class="stat"><strong>3,940</strong><span>dependency edges</span></div>
+        <div class="stat"><strong>4.3K</strong><span>fine-grained evaluation items</span></div>
+        <div class="stat"><strong>14</strong><span>video generation models</span></div>
+      </div>
+    </section>
+
+    <section class="section method-section" id="method">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow dark">The evaluation framework</p>
+            <h2>One score, two complementary signals.</h2>
+          </div>
+          <p>VGIF-Score evaluates whether a generated video completes the requested structure and whether the result satisfies prompt-conditioned perceptual criteria.</p>
+        </div>
+
+        <div class="branch-grid">
+          <article class="branch objective-branch">
+            <span class="branch-index">01</span>
+            <h3>Objective completion</h3>
+            <p>Prompts are decomposed into an ST-DAG of entities, attributes, locations, actions, states, and causal relations. A node receives credit only when its QA answer and dependency expression both pass.</p>
+            <div class="node-legend" aria-label="ST-DAG node types">
+              <span class="node entity">Entity</span>
+              <span class="node attribute">Attribute</span>
+              <span class="node location">Location</span>
+              <span class="node action">Action</span>
+              <span class="node state">State</span>
+              <span class="node causal">Causal</span>
+            </div>
+          </article>
+          <article class="branch subjective-branch">
+            <span class="branch-index">02</span>
+            <h3>Subjective satisfaction</h3>
+            <p>An instruction-conditioned AutoRubric scores four dimensions from 1 to 5: cinematography, visual purity, motion smoothness, and physics adherence.</p>
+            <div class="rubric-grid" aria-label="AutoRubric dimensions">
+              <span>Cinematography</span>
+              <span>Visual purity</span>
+              <span>Motion smoothness</span>
+              <span>Physics adherence</span>
+            </div>
+          </article>
+        </div>
+
+        <figure class="paper-figure pipeline-figure">
+          <img src="assets/vgif_pipeline_final.png" alt="VGIF-Score evaluation pipeline showing prompt parsing, ST-DAG construction, dependency-aware QA, prompt-conditioned rubric construction, VLM evaluation, and the combined score." width="5426" height="2262">
+          <figcaption><strong>Framework overview.</strong> The objective and subjective branches are evaluated per prompt-video pair and combined with equal weighting before benchmark-level averaging.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section benchmark-section" id="benchmark">
+      <div class="page-shell">
+        <div class="section-heading split-heading light-heading">
+          <div>
+            <p class="eyebrow">VGIF-Bench</p>
+            <h2>Long prompts with explicit structure.</h2>
+          </div>
+          <p>The benchmark spans eight macro categories and 38 micro categories, with deep graphs and multi-parent dependencies designed to expose instruction-following failures.</p>
+        </div>
+        <figure class="paper-figure dark-figure">
+          <img src="assets/prompt_statistics.png" alt="VGIF-Bench statistics showing scenario categories, graph depth, node-type distribution, and multi-parent node counts." width="6412" height="1454" loading="lazy">
+          <figcaption><strong>Benchmark composition.</strong> The original figure used in the camera-ready paper summarizes category coverage, graph depth, node distribution, and structural entanglement.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section case-explorer-section" id="case-explorer">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow dark">Interactive diagnosis</p>
+            <h2>One prompt, traced from instruction to failure.</h2>
+          </div>
+          <p>Compare two generated videos from the paper case study, inspect the atomic ST-DAG decomposition, and see how one missed trigger changes every downstream judgment.</p>
+        </div>
+
+        <div class="case-prompt-band">
+          <div class="case-prompt-meta">
+            <span id="case-sample-id">Selected case</span>
+            <span id="case-domain">Creative &amp; Surreal Expression</span>
+          </div>
+          <blockquote id="case-prompt">Loading the prompt and diagnostic annotations...</blockquote>
+        </div>
+
+        <div class="case-toolbar">
+          <div>
+            <span class="control-label">Generated video</span>
+            <div class="segmented case-model-switch" id="case-model-switch" role="group" aria-label="Select a model for the case study">
+              <button type="button" data-case-model="Kling-V3" aria-pressed="true">Kling-V3</button>
+              <button type="button" data-case-model="CogVideoX-1.5" aria-pressed="false">CogVideoX-1.5</button>
+            </div>
+          </div>
+          <div class="case-legend" aria-label="QA status legend">
+            <span><i class="legend-dot pass"></i>Passed</span>
+            <span><i class="legend-dot fail"></i>Missed</span>
+            <span><i class="legend-dot blocked"></i>Dependency blocked</span>
+          </div>
+        </div>
+
+        <div class="case-workbench">
+          <div class="case-video-panel">
+            <video id="case-video" controls muted playsinline preload="metadata" aria-label="Selected generated video">
+              <source id="case-video-source" src="" type="video/mp4">
+            </video>
+            <div class="case-score-strip" aria-live="polite">
+              <div><span>QA</span><strong id="case-qa-score">--</strong></div>
+              <div><span>Objective</span><strong id="case-objective-score">--</strong></div>
+              <div><span>Subjective</span><strong id="case-subjective-score">--</strong></div>
+              <div><span>Sample VGIF</span><strong id="case-vgif-score">--</strong></div>
+            </div>
+          </div>
+          <div class="case-dag-panel">
+            <div class="case-panel-head">
+              <div>
+                <span class="chart-kicker">Dependency-aware QA</span>
+                <h3>ST-DAG trace</h3>
+              </div>
+              <span class="case-panel-hint">Select a node</span>
+            </div>
+            <div id="case-dag" class="case-dag" role="img" aria-label="Interactive ST-DAG for the selected prompt"></div>
+            <div id="qa-detail" class="qa-detail" aria-live="polite">
+              <div class="qa-detail-head">
+                <span id="qa-detail-id">Q1</span>
+                <span id="qa-detail-status" class="status-label pass">Passed</span>
+              </div>
+              <h4 id="qa-detail-label">Atomic node</h4>
+              <p id="qa-detail-question">Select a node to inspect its evaluation question.</p>
+              <dl>
+                <div><dt>Dependency</dt><dd id="qa-detail-dependency">None</dd></div>
+                <div><dt>Evidence</dt><dd id="qa-detail-reason">--</dd></div>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <div class="rubric-explorer">
+          <div class="rubric-intro">
+            <p class="eyebrow dark">Instruction-conditioned AutoRubric</p>
+            <h3>Prompt-specific criteria, not a generic quality checklist.</h3>
+            <p>Each dimension is generated from this prompt. Switch dimensions to inspect the criteria, score anchors, and the selected model's diagnostic judgment.</p>
+          </div>
+          <div class="rubric-tool">
+            <div class="rubric-tabs" id="rubric-tabs" role="tablist" aria-label="AutoRubric dimensions">
+              <button type="button" role="tab" data-rubric-key="cinematography" aria-selected="true">Cinematography</button>
+              <button type="button" role="tab" data-rubric-key="purity" aria-selected="false">Visual purity</button>
+              <button type="button" role="tab" data-rubric-key="motion_smoothness" aria-selected="false">Motion smoothness</button>
+              <button type="button" role="tab" data-rubric-key="physics_adherence" aria-selected="false">Physics adherence</button>
+            </div>
+            <div class="rubric-detail" role="tabpanel">
+              <div class="rubric-score-line">
+                <div>
+                  <span class="chart-kicker">Selected model rating</span>
+                  <strong id="rubric-model-score">-- / 5</strong>
+                </div>
+                <div id="rubric-score-dots" class="score-dots" aria-label="Rubric rating"></div>
+              </div>
+              <p id="rubric-goal" class="rubric-goal">Loading rubric...</p>
+              <div class="rubric-columns">
+                <div>
+                  <h4>Prompt-specific criteria</h4>
+                  <ol id="rubric-criteria"></ol>
+                </div>
+                <div>
+                  <h4>Evaluator diagnosis</h4>
+                  <p id="rubric-reason"></p>
+                  <div class="anchor-list" id="rubric-anchors"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="case-source">Selected qualitative case from the camera-ready paper. Only these two generated videos and their diagnostic annotations are published here.</p>
+      </div>
+    </section>
+
+    <section class="section leaderboard-section" id="leaderboard">
+      <div class="page-shell">
+        <div class="section-heading leaderboard-heading">
+          <div>
+            <p class="eyebrow dark">Paper results</p>
+            <h2>Interactive leaderboard</h2>
+            <p class="section-copy">Explore the aggregate scores reported in Table 2. No per-sample evaluation outputs are included.</p>
+          </div>
+          <div class="leaderboard-controls" aria-label="Leaderboard controls">
+            <div class="control-group">
+              <span class="control-label">Model group</span>
+              <div class="segmented" id="group-filter" role="group" aria-label="Filter models by group">
+                <button type="button" data-group="all" aria-pressed="true">All</button>
+                <button type="button" data-group="commercial" aria-pressed="false">Commercial</button>
+                <button type="button" data-group="open" aria-pressed="false">Open-source</button>
+              </div>
+            </div>
+            <div class="control-group">
+              <span class="control-label">Chart metric</span>
+              <div class="segmented metric-segmented" id="metric-filter" role="group" aria-label="Select chart metric">
+                <button type="button" data-metric="vgif" aria-pressed="true">VGIF</button>
+                <button type="button" data-metric="obj" aria-pressed="false">Objective</button>
+                <button type="button" data-metric="sub" aria-pressed="false">Subjective</button>
+                <button type="button" data-metric="causal" aria-pressed="false">Causal</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="leaderboard-visual" aria-live="polite">
+          <div class="chart-head">
+            <div>
+              <span class="chart-kicker">Ranked comparison</span>
+              <h3 id="chart-title">VGIF-Score</h3>
+            </div>
+            <span class="chart-scale">Score / 100</span>
+          </div>
+          <div id="bar-chart" class="bar-chart" role="img" aria-label="Leaderboard bar chart"></div>
+        </div>
+
+        <div class="table-wrap" tabindex="0" aria-label="Scrollable leaderboard table">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col"><button type="button" data-sort="model">Model <span aria-hidden="true"></span></button></th>
+                <th scope="col">Group</th>
+                <th scope="col"><button type="button" data-sort="entity">Ent. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="attribute">Attr. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="location">Loc. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="action">Act. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="state">Sta. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="causal">Cau. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="obj">Obj. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="cin">Cin. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="pur">Pur. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="mot">Mot. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="phy">Phy. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="sub">Sub. <span aria-hidden="true"></span></button></th>
+                <th scope="col"><button type="button" data-sort="vgif">VGIF <span aria-hidden="true">&#8595;</span></button></th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+          </table>
+        </div>
+        <p class="table-note">All values are the aggregate percentages printed in the finalized paper. Click a column label to sort.</p>
+
+        <div class="category-heading">
+          <div>
+            <p class="eyebrow dark">Domain analysis</p>
+            <h2>Eight domains, 38 fine-grained capabilities.</h2>
+            <p>Switch between the camera-ready macro-domain table and a finer diagnostic view aggregated over the 38 micro domains.</p>
+          </div>
+          <div class="category-controls">
+            <div class="control-group">
+              <span class="control-label">Domain level</span>
+              <div class="segmented" id="category-level" role="group" aria-label="Select domain level">
+                <button type="button" data-category-level="macro" aria-pressed="true">8 macro</button>
+                <button type="button" data-category-level="micro" aria-pressed="false">38 micro</button>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="category-select">Active domain</label>
+              <select id="category-select" class="category-select" aria-label="Select a domain"></select>
+            </div>
+            <div class="control-group">
+              <span class="control-label">Model group</span>
+              <div class="segmented" id="category-group" role="group" aria-label="Filter domain leaderboard by model group">
+                <button type="button" data-category-group="all" aria-pressed="true">All</button>
+                <button type="button" data-category-group="commercial" aria-pressed="false">Commercial</button>
+                <button type="button" data-category-group="open" aria-pressed="false">Open-source</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="category-leaderboard">
+          <div class="category-chart-panel">
+            <div class="chart-head">
+              <div>
+                <span class="chart-kicker" id="category-level-label">Macro domain ranking</span>
+                <h3 id="category-chart-title">Product</h3>
+              </div>
+              <span class="chart-scale">VGIF / 100</span>
+            </div>
+            <div id="category-bar-chart" class="bar-chart category-bar-chart" role="img" aria-label="Domain leaderboard bar chart"></div>
+          </div>
+          <aside class="category-insight" aria-live="polite">
+            <span class="chart-kicker">Current leader</span>
+            <strong id="category-leader-model">--</strong>
+            <span id="category-leader-score">--</span>
+            <p id="category-source">Loading domain results...</p>
+          </aside>
+        </div>
+
+        <div class="heatmap-heading">
+          <div>
+            <h3>Model x domain heatmap</h3>
+            <p id="heatmap-description">Eight macro domains from the camera-ready paper.</p>
+          </div>
+          <span id="category-count">8 domains</span>
+        </div>
+        <div class="heatmap-wrap" tabindex="0" aria-label="Scrollable model by domain score heatmap">
+          <table class="heatmap-table" id="category-heatmap"></table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section findings-section" id="findings">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow dark">Diagnostic findings</p>
+            <h2>Where instruction following breaks.</h2>
+          </div>
+          <p>The graph structure reveals failure modes hidden by a single holistic quality score.</p>
+        </div>
+
+        <div class="finding-strip" aria-label="Key findings">
+          <article>
+            <strong>&lt; 5</strong>
+            <h3>Causal bottleneck</h3>
+            <p>Even the strongest commercial models score below five on causal instruction following.</p>
+          </article>
+          <article>
+            <strong>6.7x</strong>
+            <h3>Prompt-position decline</h3>
+            <p>Average QA accuracy falls from 67.9% in the first fifth to 10.1% in the final fifth.</p>
+          </article>
+          <article>
+            <strong>&lt; 3%</strong>
+            <h3>Deep dependency collapse</h3>
+            <p>Beyond depth four, accuracy falls below three percent for every evaluated model.</p>
+          </article>
+        </div>
+
+        <figure class="paper-figure structural-figure">
+          <img src="assets/fig_structural_combined.png" alt="Line chart of QA accuracy by prompt position and heatmap of model accuracy by dependency depth." width="3849" height="1503" loading="lazy">
+          <figcaption><strong>Structural factors.</strong> Accuracy degrades with both later prompt position and greater dependency depth, exposing two orthogonal sources of instruction-following failure.</figcaption>
+        </figure>
+
+        <div class="case-heading">
+          <div>
+            <p class="eyebrow dark">Failure localization</p>
+            <h2>A missed trigger blocks the causal chain.</h2>
+          </div>
+          <p>Kling-V3 completes all 12 QA items in the paper case study. CogVideoX-1.5 preserves the scene setup but misses q9, causing dependency-aware failures at downstream q10 and q12.</p>
+        </div>
+        <figure class="paper-figure case-figure">
+          <img src="assets/fig4_Dependency-aware_causal_chain_diagnosis.png" alt="Dependency-aware causal chain case study comparing CogVideoX-1.5 and Kling-V3 on a perfume transformation prompt." width="3752" height="1569" loading="lazy">
+          <figcaption><strong>Dependency-aware causal chain diagnosis.</strong> The ST-DAG identifies the bridge action that fails, then makes the downstream impact explicit.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="validation-band" aria-labelledby="validation-title">
+      <div class="page-shell validation-grid">
+        <div>
+          <p class="eyebrow">Human validation</p>
+          <h2 id="validation-title">The combined score best matches overall human judgment.</h2>
+        </div>
+        <div class="validation-stat"><strong>96.3%</strong><span>ST-DAG QA agreement</span></div>
+        <div class="validation-stat"><strong>0.92</strong><span>Cohen's kappa for QA</span></div>
+        <div class="validation-stat accent"><strong>0.89</strong><span>VGIF vs. human-overall Spearman rho</span></div>
+      </div>
+    </section>
+
+    <section class="section resources-section" id="resources">
+      <div class="page-shell resources-grid">
+        <div class="resource-copy">
+          <p class="eyebrow dark">Use VGIF-Score</p>
+          <h2>Paper, code, and benchmark.</h2>
+          <p>Reproduce the evaluation protocol with the public implementation and load VGIF-Bench directly from Hugging Face.</p>
+          <div class="resource-links">
+            <a href="https://arxiv.org/abs/2607.13527" target="_blank" rel="noreferrer"><span>Paper</span><strong>arXiv:2607.13527 &#8599;</strong></a>
+            <a href="https://github.com/PRIS-CV/VGIF-SCORE" target="_blank" rel="noreferrer"><span>Source</span><strong>PRIS-CV/VGIF-SCORE &#8599;</strong></a>
+            <a href="https://huggingface.co/datasets/Notyourkev/VGIF-Bench" target="_blank" rel="noreferrer"><span>Dataset</span><strong>Notyourkev/VGIF-Bench &#8599;</strong></a>
+          </div>
+        </div>
+        <div class="citation-panel">
+          <div class="citation-head">
+            <h3>Citation</h3>
+            <button id="copy-citation" class="copy-button" type="button">Copy BibTeX</button>
+          </div>
+          <pre id="bibtex"><code>@misc{xu2026vgifscoreinterpretablediagnosticevaluation,
+  title={VGIF-Score: Interpretable and Diagnostic Evaluation of Spatio-Temporal Instruction Following in Video Generation},
+  author={Songyu Xu and Xin Wang and Qiang Chen and Xinran Wang and Muxi Diao and Yuxuan Zhang and Kongming Liang and Rui Lin and Zhanyu Ma},
+  year={2026},
+  eprint={2607.13527},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2607.13527},
+}</code></pre>
+          <p id="copy-status" class="copy-status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell footer-inner">
+      <span>VGIF-Score</span>
+      <span>Interpretable evaluation for video generation instruction following.</span>
+    </div>
+  </footer>
+</body>
+</html>

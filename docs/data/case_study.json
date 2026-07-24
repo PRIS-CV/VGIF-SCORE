@@ -1,0 +1,502 @@
+{
+  "sample_id": "sample_0218",
+  "prompt": "In a minimalist white gallery, place a clear perfume bottle on a mirrored plinth, with a silk glove draped beside it and a gold key leaning against the mirror. The bottle’s spray mist forms a floating ring; when the key rotates through the mist ring, the perfume inside shifts from clear to deep teal. The teal liquid seeps into the mirror reflection, causing the glove to animate, stand upright, and gently “applaud” the bottle.",
+  "macro_domain": "Creative & Surreal Expression",
+  "micro_domain": "Dreamlike Object Transformation",
+  "qa": [
+    {
+      "id": "q1",
+      "node_id": "n1",
+      "type": "entity",
+      "label": "clear perfume bottle",
+      "question": "Is a perfume bottle shown prominently?",
+      "dependency": "None",
+      "parents": []
+    },
+    {
+      "id": "q2",
+      "node_id": "n4",
+      "type": "attribute",
+      "label": "bottle is clear",
+      "question": "At the start, does the perfume bottle appear clear/transparent?",
+      "dependency": "q1",
+      "parents": [
+        "q1"
+      ]
+    },
+    {
+      "id": "q3",
+      "node_id": "n2",
+      "type": "entity",
+      "label": "mirrored plinth",
+      "question": "Is the bottle placed on a mirrored plinth or mirror-like pedestal?",
+      "dependency": "q1",
+      "parents": [
+        "q1"
+      ]
+    },
+    {
+      "id": "q4",
+      "node_id": "n6",
+      "type": "entity",
+      "label": "silk glove",
+      "question": "Is a silk glove visible near the bottle?",
+      "dependency": "None",
+      "parents": []
+    },
+    {
+      "id": "q5",
+      "node_id": "n7",
+      "type": "entity",
+      "label": "gold key",
+      "question": "Is a key visible in the scene?",
+      "dependency": "None",
+      "parents": []
+    },
+    {
+      "id": "q6",
+      "node_id": "n8",
+      "type": "attribute",
+      "label": "key is gold",
+      "question": "Is the key gold-colored?",
+      "dependency": "q5",
+      "parents": [
+        "q5"
+      ]
+    },
+    {
+      "id": "q7",
+      "node_id": "n11",
+      "type": "action",
+      "label": "bottle sprays mist",
+      "question": "Does the perfume bottle spray a mist?",
+      "dependency": "q1",
+      "parents": [
+        "q1"
+      ]
+    },
+    {
+      "id": "q8",
+      "node_id": "n12",
+      "type": "state",
+      "label": "spray mist forms a floating ring",
+      "question": "Does the sprayed mist form a floating ring shape in the air?",
+      "dependency": "q7",
+      "parents": [
+        "q7"
+      ]
+    },
+    {
+      "id": "q9",
+      "node_id": "n13",
+      "type": "action",
+      "label": "key rotates through the mist ring",
+      "question": "Does the key rotate through the floating mist ring?",
+      "dependency": "q8 AND q5",
+      "parents": [
+        "q8",
+        "q5"
+      ]
+    },
+    {
+      "id": "q10",
+      "node_id": "n14",
+      "type": "causal",
+      "label": "because key rotates through ring, perfume liquid shifts from clear to deep teal",
+      "question": "After the key rotates through the ring, does the perfume inside change from clear to deep teal?",
+      "dependency": "q9 AND q1",
+      "parents": [
+        "q9",
+        "q1"
+      ]
+    },
+    {
+      "id": "q11",
+      "node_id": "n15",
+      "type": "action",
+      "label": "teal liquid seeps into the mirror reflection",
+      "question": "Does the teal liquid appear to seep into or affect the mirror reflection?",
+      "dependency": "q10 AND q3",
+      "parents": [
+        "q10",
+        "q3"
+      ]
+    },
+    {
+      "id": "q12",
+      "node_id": "n16",
+      "type": "causal",
+      "label": "because teal seeps into reflection, glove animates and applauds toward the bottle",
+      "question": "After the reflection is affected, does the glove animate and make an applauding motion toward the bottle?",
+      "dependency": "q11 AND q4 AND q1",
+      "parents": [
+        "q11",
+        "q4",
+        "q1"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "key": "cinematography",
+      "title": "Cinematography",
+      "result_id": "Cin",
+      "goal": "Evaluate cinematic techniques matching the emotional tone and narrative purpose",
+      "criteria": [
+        "Camera language should feel neutral and balanced: stable tripod, slow controlled dolly/slider, or subtle push-in at the causal moments (mist ring formation, key passing through ring, liquid color shift, seep into reflection, glove applause). No frantic handheld or aggressive zooms.",
+        "Shot design should clearly stage the spatial relationship: bottle centered/hero, mirrored plinth readable, glove visibly draped beside bottle, gold key clearly leaning against mirror/plinth and later rotating through the mist ring without leaving frame clarity.",
+        "Composition should leverage symmetry and negative space typical of a minimalist gallery; reflections should be intentionally framed so the seep into the mirror reflection is unmistakable (e.g., include both real object and its reflection in the same shot).",
+        "Lighting should be soft, clean, gallery-like (diffuse key + gentle fill) with controlled specular highlights on glass and gold; avoid harsh clipping, noisy shadows, or colored lighting that overrides the teal transformation.",
+        "Color grading should remain high-key and neutral whites with subtle contrast; the deep teal should read as the primary color accent and remain consistent across shots and in reflections.",
+        "Focus strategy should support narrative: shallow depth of field acceptable but must not blur away key evidence (mist ring, key crossing ring, teal change, seep into reflection, glove applause).",
+        "Transitions and pacing should be smooth and deliberate; cuts (if any) must preserve continuity of object placement and causal chain, with enough on-screen time to perceive each transformation.",
+        "Visual style consistency: maintain the same minimalist gallery setting, lighting direction, and mirror behavior across the full clip; no sudden style shifts (film grain spikes, vignette changes, abrupt exposure swings)."
+      ],
+      "focus_points": [
+        "Camera movements serving narrative",
+        "Composition supporting emotion",
+        "Lighting enhancing atmosphere",
+        "Pacing matching story rhythm",
+        "Style consistency across transformations",
+        "Reflection-focused framing clarity"
+      ],
+      "anchors": {
+        "1": "Cinematic techniques are contradictory: chaotic camera, unclear staging, or lighting/grade obscures the mist ring, color shift, reflection seep, or glove applause; mood not neutral/balanced.",
+        "2": "Major mismatches: frequent reframing that loses key entities, over-dramatic angles or lighting, or cuts that break the causal sequence; reflections not legible.",
+        "3": "Functional but plain: mostly stable and readable, yet composition/lighting/focus occasionally hides crucial moments or the teal accent; pacing may feel rushed or dull.",
+        "4": "Good cinematic execution: clean minimalist look, clear reflection framing, and well-timed emphasis on causal beats; only minor issues (brief focus hunting, slight highlight clipping, small continuity jump).",
+        "5": "Excellent: refined gallery aesthetic, precise staging and reflection-aware framing, subtle camera moves that highlight each transformation beat, consistent high-key grade with teal as controlled accent, seamless pacing."
+      }
+    },
+    {
+      "key": "purity",
+      "title": "Visual purity",
+      "result_id": "Pur",
+      "goal": "Evaluate whether video contains ONLY elements specified in the prompt",
+      "criteria": [
+        "Required entities present and identifiable: clear perfume bottle, mirrored plinth (with mirror surface/reflection), silk glove, gold key.",
+        "Environment limited to a minimalist white gallery: plain white walls/floor and neutral gallery ambience; no additional decor (paintings, sculptures, signage) unless strictly necessary and still minimalist (prefer none).",
+        "No extra characters: no humans, hands, faces, mannequins, animals, or additional gloves.",
+        "No extra props: no flowers, books, jewelry (other than the specified gold key), trays, labels, brand logos, ribbons, candles, dust particles presented as separate objects, or additional bottles.",
+        "Text/graphics: no subtitles, watermarks, UI overlays, brand names on bottle, or extraneous typography on walls.",
+        "Mirror/plinth scope: mirror should not reveal additional rooms, windows, or off-scene objects; the reflection should only contain the specified items and minimalist white surroundings.",
+        "No extraneous atmospheric effects: apart from the perfume mist ring, avoid smoke, fog, sparkles, magical particles, lens flares as separate effects, or color blooms not motivated by lighting/materials.",
+        "Maintain continuity: specified objects should not duplicate (two keys, two bottles) or morph into unrelated items."
+      ],
+      "focus_points": [
+        "Only specified objects present",
+        "No extra background elements",
+        "No unexpected entities",
+        "No text/watermarks/UI",
+        "Reflection does not introduce new objects",
+        "No duplication or unintended morphs"
+      ],
+      "anchors": {
+        "1": "Many extra elements: additional props/characters/scenes, text overlays, or reflections showing unrelated objects; prompt scope heavily violated.",
+        "2": "Several unrequested additions: extra decor, multiple bottles/keys, noticeable background items, or mirror reveals off-scene clutter.",
+        "3": "Mostly on-prompt with 1-2 clear extras: minor decor item, faint watermark, small unintended object in reflection, or subtle extra atmospheric particles.",
+        "4": "Nearly perfect: only microscopic, easily ignorable extras (tiny dust/spec highlights) with no new distinct objects; all key entities and minimalist gallery remain dominant.",
+        "5": "Perfect purity: only the perfume bottle, mirrored plinth/mirror, silk glove, gold key, and minimalist white gallery surfaces appear; no text, no extra props, no unintended reflection content."
+      }
+    },
+    {
+      "key": "motion_smoothness",
+      "title": "Motion smoothness",
+      "result_id": "Mot",
+      "goal": "Evaluate the naturalness and fluidity of all motions and interactions",
+      "criteria": [
+        "Mist emission and ring formation should be continuous: no frame skipping, popping, or sudden on/off toggles; ring should cohere smoothly as it forms.",
+        "Key rotation through the mist ring should have stable angular velocity (or intentionally eased) without jitter, wobble artifacts, or sudden axis changes; the path through the ring should be readable.",
+        "Color transition (clear to deep teal) should be temporally smooth: gradual spread or cleanly animated shift without flickering between colors or noisy patching inside the bottle.",
+        "Teal seep into mirror reflection should propagate smoothly across time (spreading/flowing) rather than appearing as discontinuous blobs or flashing frames.",
+        "Glove animation should be fluid and gentle: rising to stand upright with believable acceleration/deceleration; applause cycles should have consistent rhythm, clear contact moments, and no staccato snapping.",
+        "Camera motion (if any) should be stable with no micro-jitters, rolling-shutter warps, or sudden reframing that interrupts perception of transformations.",
+        "Inter-shot continuity: if cuts exist, motion states should match across cuts (key orientation, ring position, liquid color state, glove posture) to avoid discontinuous jumps."
+      ],
+      "focus_points": [
+        "Smooth continuous movements",
+        "Natural action execution",
+        "Fluid state transitions",
+        "Realistic timing and easing",
+        "No jittering/freezing/popping",
+        "Continuity across cuts"
+      ],
+      "anchors": {
+        "1": "Severe motion artifacts: frequent jitter, freezes, popping, teleporting, or inconsistent frame-to-frame positions; key actions are hard to follow.",
+        "2": "Noticeable irregularities in key beats: key rotation jitters, mist ring flickers, teal change flashes, seep effect pops, or glove applause snaps.",
+        "3": "Generally smooth with occasional hiccups: minor stutters or brief flicker during transformations; motions remain understandable.",
+        "4": "Smooth and pleasing: coherent easing and continuity for mist, key rotation, color shift, seep propagation, and glove applause; rare minor micro-jitter or small discontinuity.",
+        "5": "Exceptionally fluid: all motions and transformations are continuous, stable, and naturally timed; no visible jitter, popping, or continuity breaks."
+      }
+    },
+    {
+      "key": "physics_adherence",
+      "title": "Physics adherence",
+      "result_id": "Phy",
+      "goal": "Evaluate whether all interactions and state changes follow normal physical laws",
+      "criteria": [
+        "Static stability: perfume bottle must rest stably on the mirrored plinth (no sliding without cause); glove should drape with believable fabric folds; key should lean with a plausible contact point and center-of-mass support.",
+        "Mirror behavior: reflections should follow correct geometry (consistent with camera viewpoint); objects should not appear/disappear or distort inconsistently unless explicitly driven by the teal seep effect.",
+        "Mist spray behavior: spray emission should originate from the bottle nozzle; mist should disperse like aerosol (turbulence, diffusion) while forming a ring in a controlled, dreamlike but coherent way (ring can be stylized, but must not teleport or flicker).",
+        "Ring stability: the floating mist ring should maintain a consistent position/shape with plausible motion (gentle drift), not jittering, snapping, or changing scale randomly.",
+        "Key rotation: key should rotate with continuous angular motion, maintaining rigid-body integrity (no bending/warping) and consistent axis; it should pass through the ring with a clear intersection timing.",
+        "Causal timing: the liquid color change from clear to deep teal should occur after (not before) the key passes/rotates through the ring; transformation should be temporally continuous (no frame-to-frame instant swaps unless shown as a deliberate stylized transition).",
+        "Liquid behavior: perfume liquid should remain contained within the bottle; color shift should not cause volume to change unnaturally; refractive properties may change but must remain coherent with glass and lighting.",
+        "Teal seep into reflection: the effect can be surreal, but should be presented as a coherent propagation across the mirror image (e.g., spreading/flowing) with consistent directionality and speed; avoid random patches appearing without continuity.",
+        "Glove animation: glove standing upright and applauding is inherently surreal; evaluate internal consistency of motion and contacts—base contact with plinth should look grounded, folds should respond like fabric, and applause should involve believable deformation and collision between glove fingers/palm surfaces without interpenetration.",
+        "No impossible interpenetrations: bottle, key, and glove should not clip through each other or through the mirror/plinth; contact points should be visible and consistent."
+      ],
+      "focus_points": [
+        "Physical plausibility of interactions",
+        "Natural cause-and-effect sequences",
+        "Realistic material behavior (glass, metal, fabric, aerosol)",
+        "Temporal consistency of transformations",
+        "Reflection geometry consistency",
+        "Absence of clipping/phasing"
+      ],
+      "anchors": {
+        "1": "Severe violations throughout: objects float/teleport, major clipping, reflection behaves randomly, mist originates incorrectly, or causal order is reversed (teal before key-through-ring).",
+        "2": "Major physical errors in key beats: unstable leaning key, bottle sliding, mist ring flickering/teleporting, reflection seep discontinuous, glove applause has heavy interpenetration or non-contact motion.",
+        "3": "Mostly coherent with noticeable implausibilities: minor clipping, slight reflection mismatch, mist ring behavior not fully consistent, or glove deformation looks partially rubbery; causal order still generally correct.",
+        "4": "Good physical believability for a dreamlike premise: stable placements, consistent reflection geometry, plausible aerosol motion and ring stability, continuous color shift timing, glove motion grounded with only minor artifacts.",
+        "5": "Excellent: all rigid-body contacts, aerosol dynamics, fabric deformation, and reflection consistency feel natural; surreal effects (ring and reflection seep) are implemented with continuous, rule-consistent propagation and clean causal timing."
+      }
+    }
+  ],
+  "models": [
+    {
+      "model": "Kling-V3",
+      "video": "assets/videos/case_kling_v3.mp4",
+      "poster": "assets/videos/case_kling_v3.jpg",
+      "objective": 100.0,
+      "subjective": 65.0,
+      "vgif": 82.5,
+      "qa_correct": 12,
+      "qa_total": 12,
+      "qa": {
+        "q1": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A clear glass perfume bottle with a gold top is the central focus of the video."
+        },
+        "q2": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The bottle is made of glass and the liquid inside is visibly transparent at the start."
+        },
+        "q3": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The bottle is sitting on a flat, circular mirror which reflects the objects on it."
+        },
+        "q4": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A white, shiny glove, consistent with silk, is resting on the mirror next to the bottle."
+        },
+        "q5": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A gold, ornate key is visible on the mirror before it falls into the perfume bottle."
+        },
+        "q6": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The key has a distinct metallic, yellow-gold color and sheen."
+        },
+        "q7": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A brief puff of white mist is clearly seen spraying from the bottle’s nozzle."
+        },
+        "q8": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A distinct white ring of mist clearly forms and floats in the air after the spray."
+        },
+        "q9": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The gold key is seen tumbling and rotating as it falls through the white mist ring."
+        },
+        "q10": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The liquid in the bottle, initially clear, is shown swirling and changing to a deep teal color."
+        },
+        "q11": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The teal liquid is seen spreading across the mirror's surface in a distinct, radiating pattern."
+        },
+        "q12": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The glove animates, lifts up, and performs a slow clapping motion toward the perfume bottle."
+        }
+      },
+      "rubric": {
+        "Cin": {
+          "score": 4,
+          "reason": "Framing and lighting are clean and balanced, clearly showing scene elements and transformations from a stable angle."
+        },
+        "Pur": {
+          "score": 5,
+          "reason": "The video only contains the requested bottle, mirror, glove, key, and white gallery without any extra objects."
+        },
+        "Mot": {
+          "score": 2,
+          "reason": "Mist and key vanish abruptly; mist formation and the teal color transition are sudden and jerky."
+        },
+        "Phy": {
+          "score": 2,
+          "reason": "The key floats and completely disappears; the bottle cap vanishes and reappears; teal liquid teleports onto the mirror."
+        }
+      }
+    },
+    {
+      "model": "CogVideoX-1.5",
+      "video": "assets/videos/case_cogvideox_1_5_h264.mp4",
+      "poster": "assets/videos/case_cogvideox_1_5.jpg",
+      "objective": 66.67,
+      "subjective": 50.0,
+      "vgif": 58.33,
+      "qa_correct": 8,
+      "qa_total": 12,
+      "qa": {
+        "q1": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A clear glass perfume bottle is prominently displayed in the center of the scene."
+        },
+        "q2": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The perfume bottle is made of clear, transparent glass at the beginning of the video."
+        },
+        "q3": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The bottle rests on a reflective, silver, mirror-like box or plinth."
+        },
+        "q4": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A white silk glove is draped over the box right next to the perfume bottle."
+        },
+        "q5": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A golden key is clearly visible resting on the side of the silver box."
+        },
+        "q6": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The key attached to the side of the box is distinctly gold-colored."
+        },
+        "q7": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "A mist is clearly seen spraying upwards from the nozzle of the perfume bottle."
+        },
+        "q8": {
+          "correct": true,
+          "answer": "Yes",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The sprayed mist clearly forms a circular ring shape floating above the perfume bottle."
+        },
+        "q9": {
+          "correct": false,
+          "answer": "No",
+          "dependency_passed": true,
+          "failed_dependencies": [],
+          "reason": "The key remains stationary on the side of the box and does not move through the mist."
+        },
+        "q10": {
+          "correct": false,
+          "answer": "No",
+          "dependency_passed": false,
+          "failed_dependencies": [
+            "q9"
+          ],
+          "reason": "The key remains stationary on the box and never rotates through the ring."
+        },
+        "q11": {
+          "correct": false,
+          "answer": "No",
+          "dependency_passed": false,
+          "failed_dependencies": [
+            "q10"
+          ],
+          "reason": "The teal liquid flows over the surface of the box rather than seeping into the reflection."
+        },
+        "q12": {
+          "correct": false,
+          "answer": "No",
+          "dependency_passed": false,
+          "failed_dependencies": [
+            "q11"
+          ],
+          "reason": "The glove remains completely stationary throughout the video and does not make any applauding motion."
+        }
+      },
+      "rubric": {
+        "Cin": {
+          "score": 2,
+          "reason": "Static camera clearly shows the setup, but fails to support the narrative as key actions are entirely missing."
+        },
+        "Pur": {
+          "score": 5,
+          "reason": "Only the requested bottle, plinth, cloth/glove, and key are present in a minimalist white setting. No extra objects."
+        },
+        "Mot": {
+          "score": 2,
+          "reason": "Mist formation is somewhat smooth, but the teal liquid transition and subsequent spill are sudden, popping into existence."
+        },
+        "Phy": {
+          "score": 1,
+          "reason": "Teal liquid impossibly phases through the solid glass bottle to spill outside. Key and glove remain completely static."
+        }
+      }
+    }
+  ]
+}
