@@ -33,13 +33,18 @@ configs:
 </div>
 
 <p align="center">
-  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/domain_collage.jpg" width="100%" alt="Generated video first frames spanning eight VGIF-Bench domains"></a>
+  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/domain_collage_v2.jpg" width="100%" alt="Generated video first frames spanning eight VGIF-Bench domains with an ST-DAG overlay"></a>
 </p>
 <p align="center"><sub>Eight macro domains, from product showcase and cinematic narrative to physical interaction, embodied performance, and the living world.</sub></p>
 
 VGIF-Bench evaluates long, structurally entangled text-to-video instructions.
 Each sample contains the prompt, its ST-DAG decomposition, dependency-aware QA
 pairs, and four instruction-conditioned AutoRubric dimensions.
+
+The [project page](https://pris-cv.github.io/VGIF-SCORE/#case-explorer) presents
+one curated diagnostic case per macro domain, while the
+[benchmark comparison](https://pris-cv.github.io/VGIF-SCORE/#benchmark-comparison)
+reproduces the camera-ready benchmark landscape interactively.
 
 ## Dataset Summary
 

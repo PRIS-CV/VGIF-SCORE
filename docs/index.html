@@ -8,10 +8,10 @@
   <meta property="og:title" content="VGIF-Score">
   <meta property="og:description" content="Interpretable and diagnostic evaluation of spatio-temporal instruction following in video generation.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/domain_collage.jpg">
+  <meta property="og:image" content="assets/domain_collage_v2.jpg">
   <title>VGIF-Score | Video Generation Instruction Following</title>
-  <link rel="stylesheet" href="styles.css?v=20260724">
-  <script src="app.js?v=20260724" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260724b">
+  <script src="app.js?v=20260724b" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -24,9 +24,9 @@
       </a>
       <nav class="desktop-nav" aria-label="Primary navigation">
         <a href="#method">Method</a>
-        <a href="#case-explorer">Case study</a>
+        <a href="#benchmark-comparison">Compare</a>
+        <a href="#case-explorer">Cases</a>
         <a href="#leaderboard">Leaderboard</a>
-        <a href="#findings">Findings</a>
       </nav>
       <a class="nav-action" href="https://github.com/PRIS-CV/VGIF-SCORE" target="_blank" rel="noreferrer">View code</a>
     </div>
@@ -104,17 +104,117 @@
 
     <section class="section benchmark-section" id="benchmark">
       <div class="page-shell">
-        <div class="section-heading split-heading light-heading">
+        <div class="section-heading split-heading">
           <div>
-            <p class="eyebrow">VGIF-Bench</p>
+            <p class="eyebrow dark">VGIF-Bench</p>
             <h2>Long prompts with explicit structure.</h2>
           </div>
           <p>The benchmark spans eight macro categories and 38 micro categories, with deep graphs and multi-parent dependencies designed to expose instruction-following failures.</p>
         </div>
-        <figure class="paper-figure dark-figure">
+        <figure class="paper-figure benchmark-figure">
           <img src="assets/prompt_statistics.png" alt="VGIF-Bench statistics showing scenario categories, graph depth, node-type distribution, and multi-parent node counts." width="6412" height="1454" loading="lazy">
           <figcaption><strong>Benchmark composition.</strong> The original figure used in the camera-ready paper summarizes category coverage, graph depth, node distribution, and structural entanglement.</figcaption>
         </figure>
+      </div>
+    </section>
+
+    <section class="section comparison-section" id="benchmark-comparison">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow dark">Benchmark landscape</p>
+            <h2>Beyond longer prompts: explicit dependencies and diagnosis.</h2>
+          </div>
+          <p>Camera-ready Table 1 places VGIF-Bench against ten video-generation benchmarks. Select any point to compare prompt complexity, graph structure, and diagnostic coverage.</p>
+        </div>
+
+        <div class="comparison-workbench">
+          <div class="comparison-chart-panel">
+            <div class="comparison-chart-head">
+              <div>
+                <span class="chart-kicker">Prompt structure</span>
+                <h3>Atomic units x dependencies</h3>
+              </div>
+              <label for="benchmark-select">Benchmark
+                <select id="benchmark-select" class="benchmark-select" aria-label="Select benchmark"></select>
+              </label>
+            </div>
+            <div id="benchmark-scatter" class="benchmark-scatter" role="img" aria-label="Benchmark prompt complexity scatter plot"></div>
+          </div>
+          <aside class="benchmark-detail" id="benchmark-detail" aria-live="polite">
+            <span class="chart-kicker">Selected benchmark</span>
+            <h3 id="benchmark-detail-name">VGIF-Bench</h3>
+            <p id="benchmark-detail-copy">Loading comparison...</p>
+            <dl>
+              <div><dt>Prompts</dt><dd id="benchmark-detail-prompts">223</dd></div>
+              <div><dt>Words</dt><dd id="benchmark-detail-words">78.2</dd></div>
+              <div><dt>Atomic units</dt><dd id="benchmark-detail-units">11.3</dd></div>
+              <div><dt>Dependencies</dt><dd id="benchmark-detail-deps">6.5</dd></div>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="matrix-heading">
+          <div>
+            <h3>Evaluation capability matrix</h3>
+            <p>Objective and subjective assessment, explicit ST-DAG structure, and failure diagnosis.</p>
+          </div>
+          <span>Camera-ready Table 1</span>
+        </div>
+        <div class="comparison-table-wrap" tabindex="0" aria-label="Scrollable benchmark capability comparison">
+          <table class="comparison-table">
+            <thead><tr><th scope="col">Benchmark</th><th scope="col">Objective</th><th scope="col">Subjective</th><th scope="col">ST-DAG</th><th scope="col">Diagnosis</th></tr></thead>
+            <tbody id="benchmark-matrix"></tbody>
+          </table>
+        </div>
+        <p class="comparison-note">W, U, and Dep. denote average words, estimated atomic units, and estimated dependencies. VGIF-Bench additionally provides explicit ST-DAGs averaging 16.4 nodes and 17.7 edges.</p>
+      </div>
+    </section>
+
+    <section class="section story-section" id="problem-story">
+      <div class="page-shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Why VGIF-Score</p>
+            <h2>A beautiful video can still miss the instruction.</h2>
+          </div>
+          <p>VGIF-Score turns a single opaque judgment into a traceable account of what appeared, what depended on it, and how well the result was presented.</p>
+        </div>
+        <div class="story-strip" aria-label="Four-stage VGIF-Score explanation">
+          <article class="story-panel story-video">
+            <span class="story-number">01</span>
+            <div class="story-frame">
+              <img src="assets/videos/cases/surreal/cogvideox-1-5.jpg" alt="A generated video frame from the surreal transformation case" loading="lazy">
+              <span class="opaque-score">?</span>
+            </div>
+            <h3>Looks convincing</h3>
+            <p>One overall score cannot reveal which instruction was missed.</p>
+          </article>
+          <article class="story-panel story-atoms">
+            <span class="story-number">02</span>
+            <div class="atom-scene" aria-hidden="true">
+              <span class="atom entity">Subject</span><span class="atom action">Trigger</span><span class="atom state">Change</span><span class="atom causal">Result</span>
+            </div>
+            <h3>Break it apart</h3>
+            <p>ST-DAG converts the prompt into typed, atomic constraints.</p>
+          </article>
+          <article class="story-panel story-dependency">
+            <span class="story-number">03</span>
+            <div class="mini-dag" aria-hidden="true">
+              <span class="mini-node pass">Q1</span><i></i><span class="mini-node fail">Q2</span><i class="blocked-line"></i><span class="mini-node blocked">Q3</span>
+            </div>
+            <h3>Trace the consequence</h3>
+            <p>A missed trigger blocks dependent events instead of hiding the cause.</p>
+          </article>
+          <article class="story-panel story-resolution">
+            <span class="story-number">04</span>
+            <div class="score-resolution" aria-hidden="true">
+              <div><span>Objective</span><strong>58.3</strong></div><b>+</b><div><span>Subjective</span><strong>58.3</strong></div><b>=</b><div class="score-final"><span>VGIF</span><strong>58.3</strong></div>
+            </div>
+            <h3>Score and diagnose</h3>
+            <p>Completion and perceptual quality meet at the sample level.</p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -123,10 +223,12 @@
         <div class="section-heading split-heading">
           <div>
             <p class="eyebrow dark">Interactive diagnosis</p>
-            <h2>One prompt, traced from instruction to failure.</h2>
+            <h2>Eight domains, each traced from instruction to failure.</h2>
           </div>
-          <p>Compare two generated videos from the paper case study, inspect the atomic ST-DAG decomposition, and see how one missed trigger changes every downstream judgment.</p>
+          <p>Choose a domain, compare two distinct model outputs, inspect the atomic ST-DAG decomposition, and follow each missed constraint into its downstream judgment.</p>
         </div>
+
+        <div id="case-library" class="case-library" role="tablist" aria-label="Select a VGIF-Bench domain case"></div>
 
         <div class="case-prompt-band">
           <div class="case-prompt-meta">
@@ -139,10 +241,7 @@
         <div class="case-toolbar">
           <div>
             <span class="control-label">Generated video</span>
-            <div class="segmented case-model-switch" id="case-model-switch" role="group" aria-label="Select a model for the case study">
-              <button type="button" data-case-model="Kling-V3" aria-pressed="true">Kling-V3</button>
-              <button type="button" data-case-model="CogVideoX-1.5" aria-pressed="false">CogVideoX-1.5</button>
-            </div>
+            <div class="segmented case-model-switch" id="case-model-switch" role="group" aria-label="Select a model for the case study"></div>
           </div>
           <div class="case-legend" aria-label="QA status legend">
             <span><i class="legend-dot pass"></i>Passed</span>
@@ -223,7 +322,7 @@
             </div>
           </div>
         </div>
-        <p class="case-source">Selected qualitative case from the camera-ready paper. Only these two generated videos and their diagnostic annotations are published here.</p>
+        <p class="case-source">Eight curated VGIF-Bench prompts and 16 generated videos across eight model families. This diagnostic subset is published for visualization; bulk per-sample benchmark results remain excluded.</p>
       </div>
     </section>
 

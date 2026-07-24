@@ -16,7 +16,7 @@
 </div>
 
 <p align="center">
-  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="docs/assets/domain_collage.jpg" width="100%" alt="Generated video first frames spanning eight VGIF-Bench domains"></a>
+  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="docs/assets/domain_collage_v2.jpg" width="100%" alt="Generated video first frames spanning eight VGIF-Bench domains with an ST-DAG overlay"></a>
 </p>
 <p align="center"><sub>Generated video first frames across the eight VGIF-Bench macro domains. Open the project page for interactive diagnosis and leaderboards.</sub></p>
 
@@ -107,10 +107,12 @@ distribution, and structural entanglement.
 </p>
 
 The [interactive case explorer](https://pris-cv.github.io/VGIF-SCORE/#case-explorer)
-traces one prompt from its atomic ST-DAG and generated videos to per-node
-pass, miss, and dependency-blocked states. The project page also includes the
-aggregate paper leaderboard and interactive 8/38-domain analysis; bulk
-per-sample benchmark outputs are not published.
+contains one curated prompt for every macro domain, with 16 generated videos
+from eight model families. Each case connects its atomic ST-DAG to per-node
+pass, miss, and dependency-blocked states. The project page also includes an
+[interactive benchmark comparison](https://pris-cv.github.io/VGIF-SCORE/#benchmark-comparison),
+the aggregate paper leaderboard, and an interactive 8/38-domain analysis;
+bulk per-sample benchmark outputs are not published.
 
 ## Repository Layout
 
@@ -153,11 +155,16 @@ scripts was removed and must be revoked at its provider before publication.
 ```powershell
 python code/benchmark/build_vgif_bench.py --validate-only
 python code/benchmark/build_vgif_bench.py
+python code/benchmark/build_project_page_data.py
 ```
 
 The second command writes `data/vgif_bench/vgif_bench.jsonl` and
 `dataset_info.json`. It normalizes the historical `visual_purity` alias to the
 canonical `purity` field in the export.
+
+Curated project-page videos and the multi-domain hero collage can be rebuilt
+with `code/benchmark/export_project_page_media.py`; pass an FFmpeg executable
+with `--ffmpeg` when it is not available on `PATH`.
 
 ## Load VGIF-Bench from Hugging Face
 

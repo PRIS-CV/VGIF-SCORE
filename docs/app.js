@@ -122,6 +122,123 @@ document.querySelectorAll("[data-sort]").forEach((button) => {
   });
 });
 
+const benchmarkLandscape = [
+  { name: "VBench", prompts: 946, words: 7.7, units: 1.7, deps: 0.1, depth: null, objective: "yes", subjective: "no", dag: "no", diagnosis: "no" },
+  { name: "VBench++", prompts: 3330, words: 8.8, units: 1.7, deps: 0.2, depth: null, objective: "yes", subjective: "no", dag: "no", diagnosis: "no" },
+  { name: "VBench-2.0", prompts: 1230, words: 20.2, units: 3.8, deps: 1.4, depth: null, objective: "yes", subjective: "yes", dag: "no", diagnosis: "no" },
+  { name: "T2V-CompBench", prompts: 1400, words: 10.4, units: 1.6, deps: 0.4, depth: null, objective: "yes", subjective: "no", dag: "no", diagnosis: "no" },
+  { name: "TC-Bench", prompts: 270, words: 12.0, units: 1.4, deps: 1.2, depth: null, objective: "yes", subjective: "no", dag: "no", diagnosis: "no" },
+  { name: "VMBench", prompts: 1050, words: 26.3, units: 4.7, deps: 1.9, depth: null, objective: "na", subjective: "na", dag: "no", diagnosis: "no" },
+  { name: "T2VWorldBench", prompts: 1260, words: 11.2, units: 1.6, deps: 0.4, depth: null, objective: "yes", subjective: "no", dag: "no", diagnosis: "no" },
+  { name: "ChronoMagic", prompts: 1649, words: 45.2, units: 8.4, deps: 4.8, depth: null, objective: "na", subjective: "na", dag: "no", diagnosis: "no" },
+  { name: "GenAI-Bench", prompts: 512, words: 12.5, units: 2.2, deps: 0.5, depth: null, objective: "no", subjective: "yes", dag: "no", diagnosis: "no" },
+  { name: "MJ-Video", prompts: 1085, words: 46.5, units: 7.8, deps: 2.9, depth: null, objective: "no", subjective: "yes", dag: "no", diagnosis: "no" },
+  { name: "VGIF-Bench", prompts: 223, words: 78.2, units: 11.3, deps: 6.5, depth: 4.9, objective: "yes", subjective: "yes", dag: "yes", diagnosis: "yes" }
+];
+
+const benchmarkElements = {
+  select: document.querySelector("#benchmark-select"),
+  scatter: document.querySelector("#benchmark-scatter"),
+  matrix: document.querySelector("#benchmark-matrix"),
+  name: document.querySelector("#benchmark-detail-name"),
+  copy: document.querySelector("#benchmark-detail-copy"),
+  prompts: document.querySelector("#benchmark-detail-prompts"),
+  words: document.querySelector("#benchmark-detail-words"),
+  units: document.querySelector("#benchmark-detail-units"),
+  deps: document.querySelector("#benchmark-detail-deps")
+};
+
+let selectedBenchmark = "VGIF-Bench";
+
+function capabilityCell(value) {
+  const label = value === "yes" ? "Yes" : value === "no" ? "No" : "N/A";
+  return `<span class="capability ${value}">${label}</span>`;
+}
+
+function renderBenchmarkMatrix() {
+  benchmarkElements.matrix.innerHTML = benchmarkLandscape.map((item) => `
+    <tr class="${item.name === selectedBenchmark ? "selected" : ""}" data-benchmark-row="${escapeHtml(item.name)}" tabindex="0" aria-label="Select ${escapeHtml(item.name)}">
+      <th scope="row">${escapeHtml(item.name)}</th>
+      <td>${capabilityCell(item.objective)}</td>
+      <td>${capabilityCell(item.subjective)}</td>
+      <td>${capabilityCell(item.dag)}</td>
+      <td>${capabilityCell(item.diagnosis)}</td>
+    </tr>
+  `).join("");
+  benchmarkElements.matrix.querySelectorAll("[data-benchmark-row]").forEach((row) => {
+    const activate = () => selectBenchmark(row.dataset.benchmarkRow);
+    row.addEventListener("click", activate);
+    row.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activate();
+      }
+    });
+  });
+}
+
+function renderBenchmarkScatter() {
+  const width = 900;
+  const height = 450;
+  const padding = { left: 66, right: 36, top: 35, bottom: 58 };
+  const xMax = 12;
+  const yMax = 7;
+  const x = (value) => padding.left + (value / xMax) * (width - padding.left - padding.right);
+  const y = (value) => height - padding.bottom - (value / yMax) * (height - padding.top - padding.bottom);
+  const gridX = [0, 2, 4, 6, 8, 10, 12];
+  const gridY = [0, 1, 2, 3, 4, 5, 6, 7];
+  const grid = [
+    ...gridX.map((tick) => `<line x1="${x(tick)}" y1="${padding.top}" x2="${x(tick)}" y2="${height - padding.bottom}"/><text x="${x(tick)}" y="${height - 28}" text-anchor="middle">${tick}</text>`),
+    ...gridY.map((tick) => `<line x1="${padding.left}" y1="${y(tick)}" x2="${width - padding.right}" y2="${y(tick)}"/><text x="${padding.left - 15}" y="${y(tick) + 4}" text-anchor="end">${tick}</text>`)
+  ].join("");
+  const points = benchmarkLandscape.map((item) => {
+    const active = item.name === selectedBenchmark;
+    const radius = 8 + Math.sqrt(item.prompts) / 8;
+    return `<g class="benchmark-point ${active ? "selected" : ""} ${item.name === "VGIF-Bench" ? "vgif-point" : ""}" data-benchmark-point="${escapeHtml(item.name)}" tabindex="0" role="button" aria-label="${escapeHtml(`${item.name}: ${item.units} atomic units, ${item.deps} dependencies`)}">
+      <circle cx="${x(item.units)}" cy="${y(item.deps)}" r="${radius.toFixed(1)}"></circle>
+      ${active || item.name === "VGIF-Bench" ? `<text class="point-label" x="${x(item.units) - 12}" y="${y(item.deps) - radius - 9}" text-anchor="end">${escapeHtml(item.name)}</text>` : ""}
+    </g>`;
+  }).join("");
+  benchmarkElements.scatter.innerHTML = `<svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
+    <g class="scatter-grid">${grid}</g>
+    <text class="axis-label" x="${width / 2}" y="${height - 4}" text-anchor="middle">Average atomic units (U)</text>
+    <text class="axis-label" x="17" y="${height / 2}" text-anchor="middle" transform="rotate(-90 17 ${height / 2})">Average dependencies (Dep.)</text>
+    ${points}
+  </svg>`;
+  benchmarkElements.scatter.querySelectorAll("[data-benchmark-point]").forEach((point) => {
+    const activate = () => selectBenchmark(point.dataset.benchmarkPoint);
+    point.addEventListener("click", activate);
+    point.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activate();
+      }
+    });
+  });
+}
+
+function selectBenchmark(name) {
+  selectedBenchmark = name;
+  const item = benchmarkLandscape.find((benchmark) => benchmark.name === name);
+  benchmarkElements.select.value = name;
+  benchmarkElements.name.textContent = item.name;
+  benchmarkElements.prompts.textContent = item.prompts.toLocaleString();
+  benchmarkElements.words.textContent = item.words.toFixed(1);
+  benchmarkElements.units.textContent = item.units.toFixed(1);
+  benchmarkElements.deps.textContent = item.deps.toFixed(1);
+  benchmarkElements.copy.textContent = item.name === "VGIF-Bench"
+    ? "The only benchmark in this comparison with both objective and subjective evaluation, an explicit ST-DAG, and diagnostic outputs."
+    : `${item.name} averages ${item.words.toFixed(1)} words per prompt and ${item.deps.toFixed(1)} estimated dependencies; explicit ST-DAG structure and diagnosis are not provided.`;
+  renderBenchmarkScatter();
+  renderBenchmarkMatrix();
+}
+
+function initializeBenchmarkComparison() {
+  benchmarkElements.select.innerHTML = benchmarkLandscape.map((item) => `<option value="${escapeHtml(item.name)}">${escapeHtml(item.name)}</option>`).join("");
+  benchmarkElements.select.addEventListener("change", () => selectBenchmark(benchmarkElements.select.value));
+  selectBenchmark(selectedBenchmark);
+}
+
 const copyButton = document.querySelector("#copy-citation");
 const copyStatus = document.querySelector("#copy-status");
 
@@ -141,8 +258,11 @@ copyButton.addEventListener("click", async () => {
 });
 
 renderLeaderboard();
+initializeBenchmarkComparison();
 
 const caseElements = {
+  library: document.querySelector("#case-library"),
+  modelSwitch: document.querySelector("#case-model-switch"),
   sampleId: document.querySelector("#case-sample-id"),
   domain: document.querySelector("#case-domain"),
   prompt: document.querySelector("#case-prompt"),
@@ -168,8 +288,9 @@ const caseElements = {
 };
 
 const caseState = {
-  data: null,
-  model: "Kling-V3",
+  library: null,
+  caseId: null,
+  model: null,
   node: "q1",
   rubric: "cinematography"
 };
@@ -183,8 +304,57 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function currentCase() {
+  return caseState.library.cases.find((item) => item.id === caseState.caseId);
+}
+
 function currentCaseModel() {
-  return caseState.data.models.find((item) => item.model === caseState.model);
+  return currentCase().models.find((item) => item.model === caseState.model);
+}
+
+function preferredNode(caseData, model) {
+  const firstMiss = caseData.qa.find((node) => !model.qa[node.id].correct);
+  return (firstMiss || caseData.qa[0]).id;
+}
+
+function renderCaseLibrary() {
+  caseElements.library.innerHTML = caseState.library.cases.map((caseData) => {
+    const featured = caseData.models.find((model) => model.role === "stronger") || caseData.models[0];
+    const selected = caseData.id === caseState.caseId;
+    return `
+      <button type="button" role="tab" class="case-library-item" data-case-id="${escapeHtml(caseData.id)}" aria-selected="${selected}">
+        <img src="${escapeHtml(featured.poster)}" alt="" loading="lazy">
+        <span><strong>${escapeHtml(caseData.id)}</strong><small>${escapeHtml(caseData.micro_domain)}</small></span>
+      </button>
+    `;
+  }).join("");
+
+  caseElements.library.querySelectorAll("[data-case-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      caseState.caseId = button.dataset.caseId;
+      const caseData = currentCase();
+      caseState.model = caseData.models[0].model;
+      caseState.node = preferredNode(caseData, caseData.models[0]);
+      renderCaseLibrary();
+      renderCase();
+    });
+  });
+}
+
+function renderCaseModelSwitch() {
+  const caseData = currentCase();
+  caseElements.modelSwitch.innerHTML = caseData.models.map((model) => `
+    <button type="button" data-case-model="${escapeHtml(model.model)}" aria-pressed="${model.model === caseState.model}">
+      ${escapeHtml(model.model)}
+    </button>
+  `).join("");
+  caseElements.modelSwitch.querySelectorAll("[data-case-model]").forEach((button) => {
+    button.addEventListener("click", () => {
+      caseState.model = button.dataset.caseModel;
+      caseState.node = preferredNode(caseData, currentCaseModel());
+      renderCase();
+    });
+  });
 }
 
 function qaStatusFor(result) {
@@ -211,7 +381,7 @@ function qaDepths(nodes) {
 }
 
 function renderCaseDag() {
-  const nodes = caseState.data.qa;
+  const nodes = currentCase().qa;
   const model = currentCaseModel();
   const depths = qaDepths(nodes);
   const maxDepth = Math.max(...depths.values());
@@ -288,7 +458,7 @@ function renderCaseDag() {
 }
 
 function renderQaDetail() {
-  const node = caseState.data.qa.find((item) => item.id === caseState.node);
+  const node = currentCase().qa.find((item) => item.id === caseState.node);
   const result = currentCaseModel().qa[node.id];
   const status = qaStatusFor(result);
   const failed = result.failed_dependencies.length
@@ -305,7 +475,7 @@ function renderQaDetail() {
 }
 
 function renderRubric() {
-  const dimension = caseState.data.rubric.find((item) => item.key === caseState.rubric);
+  const dimension = currentCase().rubric.find((item) => item.key === caseState.rubric);
   const result = currentCaseModel().rubric[dimension.result_id];
   caseElements.rubricScore.textContent = `${result.score} / 5`;
   caseElements.rubricDots.setAttribute("aria-label", `${dimension.title}: ${result.score} out of 5`);
@@ -317,10 +487,12 @@ function renderRubric() {
 }
 
 function renderCase() {
+  const caseData = currentCase();
   const model = currentCaseModel();
-  caseElements.sampleId.textContent = caseState.data.sample_id;
-  caseElements.domain.textContent = `${caseState.data.macro_domain} · ${caseState.data.micro_domain}`;
-  caseElements.prompt.textContent = caseState.data.prompt;
+  caseElements.sampleId.textContent = caseData.sample_id;
+  caseElements.domain.textContent = `${caseData.macro_domain} / ${caseData.micro_domain}`;
+  caseElements.prompt.textContent = caseData.prompt;
+  renderCaseModelSwitch();
   caseElements.video.pause();
   caseElements.video.poster = model.poster;
   caseElements.videoSource.src = model.video;
@@ -334,18 +506,6 @@ function renderCase() {
   renderQaDetail();
   renderRubric();
 }
-
-document.querySelectorAll("[data-case-model]").forEach((button) => {
-  button.addEventListener("click", () => {
-    caseState.model = button.dataset.caseModel;
-    const model = currentCaseModel();
-    caseState.node = caseState.model === "Kling-V3"
-      ? "q1"
-      : caseState.data.qa.find((node) => !model.qa[node.id].correct).id;
-    document.querySelectorAll("[data-case-model]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-    renderCase();
-  });
-});
 
 document.querySelectorAll("[data-rubric-key]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -498,9 +658,13 @@ Promise.all([
     return response.json();
   })
 ]).then(([caseData, categoryData]) => {
-  caseState.data = caseData;
+  caseState.library = caseData;
+  caseState.caseId = caseData.default_case || caseData.cases[0].id;
+  caseState.model = currentCase().models[0].model;
+  caseState.node = preferredNode(currentCase(), currentCaseModel());
   categoryState.data = categoryData;
   categoryState.selected = categoryData.macro.categories[0].id;
+  renderCaseLibrary();
   renderCase();
   renderCategories({ repopulate: true });
 }).catch((error) => {

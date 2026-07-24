@@ -57,22 +57,16 @@ PAPER_MACRO_SCORES = {
     "InfinityStar": [33.44, 27.06, 32.93, 33.26, 41.65, 40.47, 34.46, 42.02],
 }
 
-CASE_MODELS = {
-    "Kling-V3": {
-        "video": "models/Kling-V3/videos/219_creative-surreal-expression_874797542247518254_1.mp4",
-        "public_video": "assets/videos/case_kling_v3.mp4",
-        "poster": "assets/videos/case_kling_v3.jpg",
-        "qa": "data/final_qa/Kling-V3/219_creative-surreal-expression_874797542247518254_1_qa_eval_dependency_rounds.json",
-        "rubric": "models/Kling-V3/results/219_creative-surreal-expression_874797542247518254_1_autorubric_eval.json",
-    },
-    "CogVideoX-1.5": {
-        "video": "models/CogVideoX-1.5/videos/CogVideoX-219.mp4",
-        "public_video": "assets/videos/case_cogvideox_1_5_h264.mp4",
-        "poster": "assets/videos/case_cogvideox_1_5.jpg",
-        "qa": "data/final_qa/CogVideoX-1.5/CogVideoX-219_qa_eval_dependency_rounds.json",
-        "rubric": "models/CogVideoX-1.5/results/CogVideoX-219_gem31fullrub_autorubric_eval.json",
-    },
-}
+CASE_LIBRARY = [
+    {"id": "product", "sample_number": 5, "models": ["Seedance-2.0", "ViduQ3-Turbo"]},
+    {"id": "narrative", "sample_number": 34, "models": ["ViduQ3-Turbo", "MAGI-1"]},
+    {"id": "surreal", "sample_number": 219, "models": ["Kling-V3", "CogVideoX-1.5"]},
+    {"id": "physics", "sample_number": 89, "models": ["Wan-2.7", "Kling-V3"]},
+    {"id": "emotion", "sample_number": 122, "models": ["InfinityStar", "Seedance-2.0"]},
+    {"id": "spatial", "sample_number": 145, "models": ["ViduQ3-Turbo", "CogVideoX-1.5"]},
+    {"id": "performance", "sample_number": 172, "models": ["Wan2.2-A14B", "CogVideoX-1.5"]},
+    {"id": "nature", "sample_number": 203, "models": ["Wan-2.7", "InfinityStar"]},
+]
 
 
 def parse_args() -> argparse.Namespace:
@@ -280,8 +274,32 @@ def build_category_data(manifest_path: Path) -> tuple[dict[str, Any], dict[str, 
     return category_payload, candidate_payload
 
 
-def build_case_data() -> dict[str, Any]:
-    annotation = load_json(REPO_DIR / "data" / "autorubric" / "sample_0218_complete.json")
+def load_manifest_rows(manifest_path: Path) -> dict[tuple[str, int], dict[str, str]]:
+    selected: dict[tuple[str, int], dict[str, str]] = {}
+    with manifest_path.open("r", encoding="utf-8-sig", newline="") as file_obj:
+        for row in csv.DictReader(file_obj):
+            if row.get("complete", "").lower() != "true":
+                continue
+            selected[(row["model"], int(row["sample_id"]))] = row
+    return selected
+
+
+def model_slug(model: str) -> str:
+    return slugify(model.replace(".", "-"))
+
+
+def build_case_item(
+    case_spec: dict[str, Any],
+    manifest_rows: dict[tuple[str, int], dict[str, str]],
+) -> dict[str, Any]:
+    sample_number = int(case_spec["sample_number"])
+    annotation_path = (
+        REPO_DIR
+        / "data"
+        / "autorubric"
+        / f"sample_{sample_number - 1:04d}_complete.json"
+    )
+    annotation = load_json(annotation_path)
     nodes_by_id = {node["node_id"]: node for node in annotation["st_dag"]["nodes"]}
     qa_items = []
     for qa in annotation["original_qa_pairs"]:
@@ -308,7 +326,8 @@ def build_case_data() -> dict[str, Any]:
     rubric_dimensions = []
     source_dimensions = annotation["autorubric"]["dimensions"]
     for key, title, result_id in rubric_order:
-        source = source_dimensions[key]
+        source_key = "visual_purity" if key == "purity" and key not in source_dimensions else key
+        source = source_dimensions[source_key]
         rubric_dimensions.append(
             {
                 "key": key,
@@ -322,9 +341,12 @@ def build_case_data() -> dict[str, Any]:
         )
 
     model_payloads = []
-    for model, paths in CASE_MODELS.items():
-        qa_payload = load_json(REPO_DIR / paths["qa"])
-        rubric_payload = load_json(REPO_DIR / paths["rubric"])
+    for position, model in enumerate(case_spec["models"]):
+        row = manifest_rows.get((model, sample_number))
+        if row is None:
+            raise ValueError(f"Missing complete manifest row for {model}, sample {sample_number}")
+        qa_payload = load_json(REPO_DIR / row["qa_file"])
+        rubric_payload = load_json(REPO_DIR / row["rubric_file"])
         objective, subjective, vgif = score_pair(qa_payload, rubric_payload)
         qa_results = {
             item["id"]: {
@@ -347,8 +369,9 @@ def build_case_data() -> dict[str, Any]:
         model_payloads.append(
             {
                 "model": model,
-                "video": paths["public_video"],
-                "poster": paths["poster"],
+                "role": "stronger" if position == 0 else "contrast",
+                "video": f"assets/videos/cases/{case_spec['id']}/{model_slug(model)}.mp4",
+                "poster": f"assets/videos/cases/{case_spec['id']}/{model_slug(model)}.jpg",
                 "objective": round(objective * 100.0, 2),
                 "subjective": round(subjective * 100.0, 2),
                 "vgif": round(vgif * 100.0, 2),
@@ -360,6 +383,8 @@ def build_case_data() -> dict[str, Any]:
         )
 
     return {
+        "id": case_spec["id"],
+        "sample_number": sample_number,
         "sample_id": annotation["sample_id"],
         "prompt": annotation["prompt"],
         "macro_domain": english_name(annotation["domain_info"]["macro_domain"]),
@@ -367,6 +392,16 @@ def build_case_data() -> dict[str, Any]:
         "qa": qa_items,
         "rubric": rubric_dimensions,
         "models": model_payloads,
+    }
+
+
+def build_case_library_data(manifest_path: Path) -> dict[str, Any]:
+    manifest_rows = load_manifest_rows(manifest_path)
+    cases = [build_case_item(case_spec, manifest_rows) for case_spec in CASE_LIBRARY]
+    return {
+        "default_case": "surreal",
+        "cases": cases,
+        "model_count": len({model["model"] for case in cases for model in case["models"]}),
     }
 
 
@@ -378,7 +413,7 @@ def main() -> int:
             f"Expected 38 micro domains, found {len(category_data['micro']['categories'])}"
         )
     dump_json(args.category_output.resolve(), category_data)
-    dump_json(args.case_output.resolve(), build_case_data())
+    dump_json(args.case_output.resolve(), build_case_library_data(args.manifest.resolve()))
     dump_json(args.candidates_output.resolve(), candidate_data)
     print(f"Category data: {args.category_output.resolve()}")
     print(f"Case study data: {args.case_output.resolve()}")
