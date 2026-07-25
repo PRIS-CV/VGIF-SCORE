@@ -1,63 +1,87 @@
 <div align="center">
   <h1>VGIF-Score</h1>
-  <p><strong>Interpretable and Diagnostic Evaluation of Spatio-Temporal<br>Instruction Following in Video Generation</strong></p>
+  <p><strong>When a video looks right but follows the instruction wrong.</strong></p>
+  <p>Interpretable and Diagnostic Evaluation of Spatio-Temporal<br>Instruction Following in Video Generation</p>
   <p>Songyu Xu, Xin Wang, Qiang Chen, Xinran Wang, Muxi Diao,<br>Yuxuan Zhang, Kongming Liang, Rui Lin, and Zhanyu Ma</p>
   <p>
-    <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://img.shields.io/badge/Project-Page-2f75b5?style=for-the-badge&logo=githubpages&logoColor=white" alt="Project page"></a>
-    <a href="https://arxiv.org/abs/2607.13527"><img src="https://img.shields.io/badge/arXiv-2607.13527-c43b3b?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv paper"></a>
-    <a href="https://huggingface.co/datasets/Notyourkev/VGIF-Bench"><img src="https://img.shields.io/badge/VGIF--Bench-Dataset-f6c344?style=for-the-badge&logo=huggingface&logoColor=111111" alt="VGIF-Bench dataset"></a>
+    <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://img.shields.io/badge/Project-Explore%20the%20Demo-2f75b5?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Explore the project page"></a>
+    <a href="https://arxiv.org/abs/2607.13527"><img src="https://img.shields.io/badge/arXiv-2607.13527-c43b3b?style=for-the-badge&logo=arxiv&logoColor=white" alt="Read the arXiv paper"></a>
+    <a href="https://huggingface.co/datasets/Notyourkev/VGIF-Bench"><img src="https://img.shields.io/badge/Hugging%20Face-VGIF--Bench-f6c344?style=for-the-badge&logo=huggingface&logoColor=111111" alt="Open VGIF-Bench on Hugging Face"></a>
   </p>
   <p>
-    <img src="https://img.shields.io/badge/Models-14-2f75b5?style=flat-square" alt="14 evaluated models">
-    <img src="https://img.shields.io/badge/Domains-8%20macro%20%7C%2038%20micro-3a8b67?style=flat-square" alt="8 macro and 38 micro domains">
-    <img src="https://img.shields.io/badge/Code-Apache--2.0-7659a8?style=flat-square" alt="Apache 2.0 code license">
-    <img src="https://img.shields.io/badge/Data-CC%20BY--NC%204.0-b97914?style=flat-square" alt="CC BY-NC 4.0 dataset license">
+    <a href="#the-method"><img src="https://img.shields.io/badge/01-Method-3a8b67?style=flat-square" alt="Jump to method"></a>
+    <a href="#vgif-bench"><img src="https://img.shields.io/badge/02-Benchmark-7659a8?style=flat-square" alt="Jump to benchmark"></a>
+    <a href="#read-a-failure-trace"><img src="https://img.shields.io/badge/03-Diagnosis-c65b66?style=flat-square" alt="Jump to diagnosis"></a>
+    <a href="#use-the-code"><img src="https://img.shields.io/badge/04-Code-b97914?style=flat-square" alt="Jump to code"></a>
   </p>
 </div>
 
 <p align="center">
-  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="docs/assets/readme/hero.jpg" width="100%" alt="Generated video first frames spanning eight VGIF-Bench domains with an ST-DAG overlay"></a>
+  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="docs/assets/readme/hero.jpg" width="100%" alt="Thirty-two generated video frames from five commercial models across all eight VGIF-Bench domains, arranged as an asymmetric collage with an ST-DAG overlay"></a>
 </p>
-<p align="center"><sub>Generated video frames across the eight VGIF-Bench macro domains. Open the project page for interactive diagnosis and leaderboards.</sub></p>
+<p align="center"><sub>32 generated frames &middot; 5 commercial models &middot; 8 macro domains &middot; one dependency-aware evaluation framework</sub></p>
 
-## A Beautiful Video Can Still Miss the Instruction
+<div align="center">
+  <img src="https://img.shields.io/badge/Prompts-223-2f75b5?style=flat-square" alt="223 prompts">
+  <img src="https://img.shields.io/badge/ST--DAG%20Nodes-3%2C656-3a8b67?style=flat-square" alt="3656 ST-DAG nodes">
+  <img src="https://img.shields.io/badge/Dependencies-3%2C940-c65b66?style=flat-square" alt="3940 dependency edges">
+  <img src="https://img.shields.io/badge/Models-14-7659a8?style=flat-square" alt="14 evaluated models">
+  <img src="https://img.shields.io/badge/Micro%20Domains-38-b97914?style=flat-square" alt="38 micro domains">
+</div>
 
-Modern video generators can produce a convincing scene while quietly dropping
-the event that should trigger it, changing the wrong object, or breaking the
-requested temporal order. A single similarity or quality score can say that
-the video is weak, but rarely says **what failed and why**.
+## The Problem
 
-VGIF-Score treats an instruction as a structured sequence of visible
-commitments. It asks whether each commitment appears, whether its prerequisites
-are satisfied, and whether the finished video remains perceptually convincing.
-The result is both a score and a traceable diagnosis.
+> **A beautiful video can still miss the instruction.** It may preserve the
+> subject and style while dropping the trigger action, changing the wrong
+> object, or reversing the requested temporal order.
 
-## From Prompt to Diagnosis
+VGIF-Score turns that opaque failure into a traceable evaluation. Instead of
+asking only whether a video is visually plausible, it asks which visible
+commitments were completed, how they depend on one another, and whether the
+result remains perceptually convincing.
+
+## The Method
 
 <p align="center">
   <img src="docs/assets/readme/pipeline.png" width="100%" alt="VGIF-Score evaluation pipeline">
 </p>
 
-1. **Structure the instruction.** The prompt becomes a Spatio-Temporal Directed
-   Acyclic Graph (ST-DAG) of entities, attributes, locations, actions, states,
-   and causal relations.
-2. **Ask atomic questions.** A VLM checks each visible requirement. Dependency
-   expressions preserve the prompt's logic, so a missed trigger explains why a
-   downstream event cannot receive credit.
-3. **Judge the requested presentation.** An instruction-conditioned AutoRubric
-   evaluates cinematography, visual purity, motion smoothness, and physics
-   adherence with prompt-specific 1-5 anchors.
-4. **Combine completion and satisfaction.** Objective and subjective scores are
-   computed for every prompt-video pair, combined with equal weight, and then
-   averaged over the benchmark.
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="https://img.shields.io/badge/OBJECTIVE-Instruction%20Completion-3a8b67?style=flat-square" alt="Objective instruction completion"><br><br>
+      <strong>Prompt &rarr; ST-DAG &rarr; atomic QA</strong><br><br>
+      The prompt is decomposed into typed entities, attributes, locations, actions, states, and causal relations. A node receives credit only when its visual question and dependency expression both pass.
+    </td>
+    <td width="50%" valign="top">
+      <img src="https://img.shields.io/badge/SUBJECTIVE-Visual%20Satisfaction-7659a8?style=flat-square" alt="Subjective visual satisfaction"><br><br>
+      <strong>Prompt &rarr; AutoRubric &rarr; four judgments</strong><br><br>
+      An instruction-conditioned rubric scores cinematography, visual purity, motion smoothness, and physics adherence with prompt-specific 1-5 anchors.
+    </td>
+  </tr>
+</table>
 
-```text
-S_objective  = completed dependency-aware nodes / all nodes
-S_subjective = mean(Cin, Pur, Mot, Phy) / 5
-VGIF-Score   = 0.5 * S_objective + 0.5 * S_subjective
-```
+| Dependency-aware completion | Prompt-conditioned satisfaction | Sample-level score |
+| :---: | :---: | :---: |
+| `S_obj = completed nodes / all nodes` | `S_sub = mean(Cin, Pur, Mot, Phy) / 5` | `VGIF = 0.5 x S_obj + 0.5 x S_sub` |
+
+Objective, subjective, and VGIF scores are computed **for each prompt-video
+pair first** and then averaged over the benchmark. This preserves the sample as
+the unit of evaluation and enables node-type, depth, domain, and causal-chain
+diagnostics.
 
 ## VGIF-Bench
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Product-Showcase-3a8b67?style=flat-square" alt="Product showcase">
+  <img src="https://img.shields.io/badge/Cinematic-Narrative-2f75b5?style=flat-square" alt="Cinematic narrative">
+  <img src="https://img.shields.io/badge/Creative-Surreal-7659a8?style=flat-square" alt="Creative surreal">
+  <img src="https://img.shields.io/badge/Physical-Interaction-c65b66?style=flat-square" alt="Physical interaction">
+  <img src="https://img.shields.io/badge/Emotion-Atmosphere-b97914?style=flat-square" alt="Emotion and atmosphere">
+  <img src="https://img.shields.io/badge/Spatial-Orchestration-317d87?style=flat-square" alt="Spatial orchestration">
+  <img src="https://img.shields.io/badge/Embodied-Performance-a25574?style=flat-square" alt="Embodied performance">
+  <img src="https://img.shields.io/badge/Living-World-568b3f?style=flat-square" alt="Living world">
+</div>
 
 | Prompts | Macro domains | Micro domains | ST-DAG nodes | Dependency edges | QA pairs | Models |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -68,9 +92,8 @@ VGIF-Score   = 0.5 * S_objective + 0.5 * S_subjective
 </p>
 
 VGIF-Bench is built around long, dependency-rich prompts rather than isolated
-visual attributes. Its eight macro domains cover product showcase, narrative,
-surreal expression, physical interaction, emotion, spatial orchestration,
-embodied performance, and the living world.
+visual attributes. Explore the full [benchmark landscape](https://pris-cv.github.io/VGIF-SCORE/#benchmark-comparison)
+or compare scores across all [8 macro and 38 micro domains](https://pris-cv.github.io/VGIF-SCORE/#leaderboard).
 
 ## Read a Failure Trace
 
@@ -78,22 +101,22 @@ embodied performance, and the living world.
   <a href="https://pris-cv.github.io/VGIF-SCORE/#case-explorer"><img src="docs/assets/readme/diagnosis.png" width="100%" alt="Dependency-aware causal chain diagnosis comparing two generated videos"></a>
 </p>
 
-A generated result may contain the right subject and scene yet miss the action
-that initiates the requested transformation. VGIF-Score isolates that missed
-node and marks the dependent states as blocked, instead of folding every error
-into one opaque number.
+The evaluator isolates the first missed atomic requirement and marks dependent
+events as blocked, rather than folding every downstream symptom into one
+number. The interactive explorer provides one curated case for every macro
+domain, with 16 videos from eight model families.
 
-The [interactive case explorer](https://pris-cv.github.io/VGIF-SCORE/#case-explorer)
-contains one curated prompt per macro domain, with 16 videos from eight model
-families. The project page also provides the
-[benchmark comparison](https://pris-cv.github.io/VGIF-SCORE/#benchmark-comparison),
-[model leaderboard](https://pris-cv.github.io/VGIF-SCORE/#leaderboard), and
-interactive 8/38-domain analysis. Bulk per-sample benchmark outputs are not
-published.
+<div align="center">
+  <a href="https://pris-cv.github.io/VGIF-SCORE/#case-explorer"><img src="https://img.shields.io/badge/Open-Case%20Explorer-2f75b5?style=for-the-badge" alt="Open case explorer"></a>
+  <a href="https://pris-cv.github.io/VGIF-SCORE/#leaderboard"><img src="https://img.shields.io/badge/Explore-Interactive%20Leaderboard-3a8b67?style=for-the-badge" alt="Explore interactive leaderboard"></a>
+</div>
+
+Bulk per-sample benchmark outputs are not published.
 
 ## Use the Code
 
-### 1. Install
+<details open>
+<summary><strong>1. Install the evaluation toolkit</strong></summary>
 
 ```powershell
 python -m venv .venv
@@ -101,16 +124,14 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-Set the VLM endpoint used by the evaluation scripts:
-
 ```powershell
 $env:VGIF_API_KEY = "..."
 $env:VGIF_BASE_URL = "https://your-gemini-compatible-gateway"
 ```
+</details>
 
-Keep credentials local and never commit them.
-
-### 2. Load VGIF-Bench
+<details open>
+<summary><strong>2. Load VGIF-Bench from Hugging Face</strong></summary>
 
 ```python
 from datasets import load_dataset
@@ -118,19 +139,23 @@ from datasets import load_dataset
 dataset = load_dataset("Notyourkev/VGIF-Bench", split="test")
 print(dataset[0]["prompt"])
 ```
+</details>
 
-The public dataset repository does not require authentication for loading.
-
-### 3. Validate and Export
+<details>
+<summary><strong>3. Validate and rebuild public assets</strong></summary>
 
 ```powershell
 python code/benchmark/build_vgif_bench.py --validate-only
 python code/benchmark/build_vgif_bench.py
 python code/benchmark/build_results_manifest.py
 python code/benchmark/build_project_page_data.py
+python code/benchmark/export_hero_collage.py
+python code/benchmark/export_readme_media.py
 ```
+</details>
 
-### 4. Evaluate a Video
+<details>
+<summary><strong>4. Evaluate one generated video</strong></summary>
 
 ```powershell
 python code/evaluation/evaluate_video_qa_accuracy.py `
@@ -144,43 +169,30 @@ python code/evaluation/evaluate_video_autorubric_scores.py `
   --entries data\vgif_bench\vgif_bench.jsonl `
   --metadata-root path\to\metadata
 ```
+</details>
 
-The paper evaluation uses Gemini-3.1-Pro. Objective, subjective, and VGIF
-scores are computed per sample before benchmark averaging. Semantic node-type
-diagnostics pool the dependency-aware QA decisions for each node type.
-
-### 5. Run the Tests
+<details>
+<summary><strong>5. Run the test suite</strong></summary>
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
+</details>
 
-## Repository Map
+## Repository
 
-```text
-code/
-  benchmark/   Dataset validation, result manifests, and project-page exports
-  evaluation/  VLM QA, AutoRubric, dependency propagation, and VGIF scoring
-  generation/  Provider-specific and open-model generation scripts
-  plotting/    Paper analysis and figure scripts
-data/
-  autorubric/  Canonical 223-prompt source annotations
-  vgif_bench/  Hugging Face-ready JSONL export and statistics
-  final_qa/    Curated QA outputs
-models/        Local generated videos and evaluation outputs (not for Git)
-docs/          Static project page, curated videos, and camera-ready figures
-camera_ready_paper_id_499/  Camera-ready PDF and LaTeX sources
-```
+| Path | Purpose |
+| --- | --- |
+| `code/benchmark/` | Dataset validation, result manifests, and public visual exports |
+| `code/evaluation/` | VLM QA, AutoRubric, dependency propagation, and VGIF scoring |
+| `code/generation/` | Provider-specific and open-model generation scripts |
+| `code/plotting/` | Camera-ready analysis and figure scripts |
+| `data/vgif_bench/` | Hugging Face-ready JSONL export and statistics |
+| `docs/` | Interactive project page and curated public media |
+| `camera_ready_paper_id_499/` | Camera-ready PDF and LaTeX sources |
 
-Curated project-page media can be rebuilt with
-`code/benchmark/export_project_page_media.py`. README images with a stable
-white matte can be rebuilt with `code/benchmark/export_readme_media.py`.
-
-## License
-
-The software is released under the Apache License 2.0. VGIF-Bench is released
-separately under Creative Commons Attribution-NonCommercial 4.0 International
-(`CC BY-NC 4.0`). See `LICENSE` and `data/vgif_bench/LICENSE`.
+The code is released under Apache-2.0. VGIF-Bench is released separately under
+CC BY-NC 4.0. See `LICENSE` and `data/vgif_bench/LICENSE`.
 
 ## Citation
 

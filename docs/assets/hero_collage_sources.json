@@ -1,0 +1,236 @@
+{
+  "selection": "32 representative frames from the five commercial models",
+  "models": [
+    "Kling-V3",
+    "PixVerse-V6",
+    "Seedance-2.0",
+    "ViduQ3-Turbo",
+    "Wan-2.7"
+  ],
+  "frames": [
+    {
+      "domain": "Commercial & Product Showcase",
+      "micro_domain": "Home Appliance Feature Presentation",
+      "model": "Kling-V3",
+      "sample_id": 222,
+      "timestamp_seconds": 2.05
+    },
+    {
+      "domain": "Commercial & Product Showcase",
+      "micro_domain": "Beauty and Skincare Product Reveal",
+      "model": "Seedance-2.0",
+      "sample_id": 5,
+      "timestamp_seconds": 2.75
+    },
+    {
+      "domain": "Commercial & Product Showcase",
+      "micro_domain": "Consumer Electronics Demo",
+      "model": "ViduQ3-Turbo",
+      "sample_id": 18,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Commercial & Product Showcase",
+      "micro_domain": "Food and Beverage Advertising",
+      "model": "PixVerse-V6",
+      "sample_id": 9,
+      "timestamp_seconds": 2.75
+    },
+    {
+      "domain": "Narrative & Cinematic Storytelling",
+      "micro_domain": "Suspense and Discovery Moments",
+      "model": "Seedance-2.0",
+      "sample_id": 40,
+      "timestamp_seconds": 2.05
+    },
+    {
+      "domain": "Narrative & Cinematic Storytelling",
+      "micro_domain": "Character Conflict and Resolution",
+      "model": "ViduQ3-Turbo",
+      "sample_id": 34,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Narrative & Cinematic Storytelling",
+      "micro_domain": "Urban Slice-of-Life Narrative",
+      "model": "Wan-2.7",
+      "sample_id": 52,
+      "timestamp_seconds": 0.75
+    },
+    {
+      "domain": "Narrative & Cinematic Storytelling",
+      "micro_domain": "Fantasy Journey Story Beats",
+      "model": "Kling-V3",
+      "sample_id": 53,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Creative & Surreal Expression",
+      "micro_domain": "Reality-to-Fantasy Scene Shift",
+      "model": "Wan-2.7",
+      "sample_id": 78,
+      "timestamp_seconds": 2.05
+    },
+    {
+      "domain": "Creative & Surreal Expression",
+      "micro_domain": "Metaphorical Visual Storytelling",
+      "model": "Seedance-2.0",
+      "sample_id": 67,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Creative & Surreal Expression",
+      "micro_domain": "Dreamlike Object Transformation",
+      "model": "Kling-V3",
+      "sample_id": 219,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Creative & Surreal Expression",
+      "micro_domain": "Impossible Scale and Spatial Juxtaposition",
+      "model": "PixVerse-V6",
+      "sample_id": 66,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Dynamics & Physical Interaction",
+      "micro_domain": "Fire Smoke and Explosion Reaction",
+      "model": "ViduQ3-Turbo",
+      "sample_id": 95,
+      "timestamp_seconds": 1.35
+    },
+    {
+      "domain": "Dynamics & Physical Interaction",
+      "micro_domain": "Multi-Object Collision Chain",
+      "model": "Seedance-2.0",
+      "sample_id": 85,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Dynamics & Physical Interaction",
+      "micro_domain": "Force Balance and Motion Transfer",
+      "model": "PixVerse-V6",
+      "sample_id": 108,
+      "timestamp_seconds": 0.75
+    },
+    {
+      "domain": "Dynamics & Physical Interaction",
+      "micro_domain": "Fluid and Splash Interaction",
+      "model": "Wan-2.7",
+      "sample_id": 89,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Emotion & Atmosphere Expression",
+      "micro_domain": "Warm Family Moment",
+      "model": "PixVerse-V6",
+      "sample_id": 121,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Emotion & Atmosphere Expression",
+      "micro_domain": "Loneliness in Large Space",
+      "model": "Kling-V3",
+      "sample_id": 113,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Emotion & Atmosphere Expression",
+      "micro_domain": "Celebration and Joyful Crowd Energy",
+      "model": "Seedance-2.0",
+      "sample_id": 131,
+      "timestamp_seconds": 0.75
+    },
+    {
+      "domain": "Emotion & Atmosphere Expression",
+      "micro_domain": "Warm Family Moment",
+      "model": "Wan-2.7",
+      "sample_id": 122,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Spatial Composition & Scene Orchestration",
+      "micro_domain": "Mirror Reflection and Framing Composition",
+      "model": "Kling-V3",
+      "sample_id": 159,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Spatial Composition & Scene Orchestration",
+      "micro_domain": "Crowd and Multi-Agent Scene Blocking",
+      "model": "Seedance-2.0",
+      "sample_id": 147,
+      "timestamp_seconds": 0.75
+    },
+    {
+      "domain": "Spatial Composition & Scene Orchestration",
+      "micro_domain": "Mirror Reflection and Framing Composition",
+      "model": "PixVerse-V6",
+      "sample_id": 158,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Spatial Composition & Scene Orchestration",
+      "micro_domain": "Crowd and Multi-Agent Scene Blocking",
+      "model": "ViduQ3-Turbo",
+      "sample_id": 145,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Performance, Sports & Embodied Motion",
+      "micro_domain": "Dance Performance Synchronization",
+      "model": "Seedance-2.0",
+      "sample_id": 172,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Performance, Sports & Embodied Motion",
+      "micro_domain": "Stage Performance Lighting Interaction",
+      "model": "ViduQ3-Turbo",
+      "sample_id": 181,
+      "timestamp_seconds": 1.35
+    },
+    {
+      "domain": "Performance, Sports & Embodied Motion",
+      "micro_domain": "Martial Arts or Stunt Choreography",
+      "model": "PixVerse-V6",
+      "sample_id": 191,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Performance, Sports & Embodied Motion",
+      "micro_domain": "Dance Performance Synchronization",
+      "model": "Kling-V3",
+      "sample_id": 172,
+      "timestamp_seconds": 2.75
+    },
+    {
+      "domain": "Travel, Nature & Living World",
+      "micro_domain": "Weather-Driven Natural Landscape",
+      "model": "Wan-2.7",
+      "sample_id": 200,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Travel, Nature & Living World",
+      "micro_domain": "Pet or Animal Daily Interaction",
+      "model": "PixVerse-V6",
+      "sample_id": 212,
+      "timestamp_seconds": 3.45
+    },
+    {
+      "domain": "Travel, Nature & Living World",
+      "micro_domain": "Landmark Travel Memory Clip",
+      "model": "PixVerse-V6",
+      "sample_id": 195,
+      "timestamp_seconds": 0.75
+    },
+    {
+      "domain": "Travel, Nature & Living World",
+      "micro_domain": "Outdoor Adventure Lifestyle",
+      "model": "Seedance-2.0",
+      "sample_id": 208,
+      "timestamp_seconds": 1.35
+    }
+  ]
+}

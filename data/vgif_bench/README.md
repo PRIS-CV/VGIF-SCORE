@@ -18,63 +18,86 @@ configs:
 
 <div align="center">
   <h1>VGIF-Bench</h1>
-  <p><strong>A diagnostic benchmark for spatio-temporal instruction following<br>in text-to-video generation</strong></p>
+  <p><strong>When a video looks right but follows the instruction wrong.</strong></p>
+  <p>A diagnostic benchmark for spatio-temporal instruction following<br>in text-to-video generation</p>
   <p>
-    <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://img.shields.io/badge/Project-Page-2f75b5?style=for-the-badge&logo=githubpages&logoColor=white" alt="Project page"></a>
-    <a href="https://arxiv.org/abs/2607.13527"><img src="https://img.shields.io/badge/arXiv-2607.13527-c43b3b?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv paper"></a>
-    <a href="https://github.com/PRIS-CV/VGIF-SCORE"><img src="https://img.shields.io/badge/GitHub-Source-7659a8?style=for-the-badge&logo=github&logoColor=white" alt="GitHub source"></a>
+    <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://img.shields.io/badge/Project-Interactive%20Demo-2f75b5?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Explore the project page"></a>
+    <a href="https://arxiv.org/abs/2607.13527"><img src="https://img.shields.io/badge/arXiv-2607.13527-c43b3b?style=for-the-badge&logo=arxiv&logoColor=white" alt="Read the arXiv paper"></a>
+    <a href="https://github.com/PRIS-CV/VGIF-SCORE"><img src="https://img.shields.io/badge/GitHub-Code-7659a8?style=for-the-badge&logo=github&logoColor=white" alt="Open the source code"></a>
   </p>
   <p>
-    <img src="https://img.shields.io/badge/Split-Test%20only-2f75b5?style=flat-square" alt="Test split">
-    <img src="https://img.shields.io/badge/Prompts-223-3a8b67?style=flat-square" alt="223 prompts">
-    <img src="https://img.shields.io/badge/Domains-8%20macro%20%7C%2038%20micro-7659a8?style=flat-square" alt="8 macro and 38 micro domains">
-    <img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-b97914?style=flat-square" alt="CC BY-NC 4.0">
+    <a href="#why-vgif-bench"><img src="https://img.shields.io/badge/01-Why-3a8b67?style=flat-square" alt="Jump to benchmark motivation"></a>
+    <a href="#inside-one-sample"><img src="https://img.shields.io/badge/02-Schema-7659a8?style=flat-square" alt="Jump to sample schema"></a>
+    <a href="#evaluation-story"><img src="https://img.shields.io/badge/03-Evaluation-c65b66?style=flat-square" alt="Jump to evaluation method"></a>
+    <a href="#load-the-dataset"><img src="https://img.shields.io/badge/04-Load-b97914?style=flat-square" alt="Jump to loading instructions"></a>
   </p>
 </div>
 
 <p align="center">
-  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/readme/hero.jpg" width="100%" alt="Generated video first frames spanning eight VGIF-Bench domains with an ST-DAG overlay"></a>
+  <a href="https://pris-cv.github.io/VGIF-SCORE/"><img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/readme/hero.jpg" width="100%" alt="Thirty-two generated video frames from five commercial models across all eight VGIF-Bench domains, arranged as an asymmetric collage with an ST-DAG overlay"></a>
 </p>
-<p align="center"><sub>Eight macro domains, from product showcase and cinematic narrative to physical interaction, embodied performance, and the living world.</sub></p>
+<p align="center"><sub>32 generated frames &middot; 5 commercial models &middot; 8 macro domains &middot; 38 micro domains</sub></p>
 
-A video can look convincing and still miss the instruction that matters. It may
-drop a trigger action, transform the wrong object, or break the requested
-temporal order. VGIF-Bench makes those failures measurable by representing each
-prompt as an explicit spatio-temporal dependency graph.
+<div align="center">
+  <img src="https://img.shields.io/badge/Split-Test%20only-2f75b5?style=flat-square" alt="Test split">
+  <img src="https://img.shields.io/badge/Prompts-223-3a8b67?style=flat-square" alt="223 prompts">
+  <img src="https://img.shields.io/badge/ST--DAG%20Nodes-3%2C656-c65b66?style=flat-square" alt="3656 ST-DAG nodes">
+  <img src="https://img.shields.io/badge/Domains-8%20macro%20%7C%2038%20micro-7659a8?style=flat-square" alt="8 macro and 38 micro domains">
+  <img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-b97914?style=flat-square" alt="CC BY-NC 4.0">
+</div>
 
-The [project page](https://pris-cv.github.io/VGIF-SCORE/#case-explorer) presents
-one curated diagnostic case per macro domain. The
-[benchmark comparison](https://pris-cv.github.io/VGIF-SCORE/#benchmark-comparison)
-places VGIF-Bench within the camera-ready evaluation landscape.
+## Why VGIF-Bench
 
-## At a Glance
+> A video may look polished while quietly dropping the event that should
+> trigger a transformation, changing the wrong object, or breaking the
+> requested temporal order.
 
-| Field | Count |
-| --- | ---: |
-| Prompts | 223 |
-| Macro / micro domains | 8 / 38 |
-| ST-DAG nodes | 3,656 |
-| ST-DAG edges | 3,940 |
-| Dependency-aware QA pairs | 3,445 |
-| AutoRubric dimensions | 892 |
+VGIF-Bench represents every prompt as an explicit **Spatio-Temporal Directed
+Acyclic Graph (ST-DAG)**. The benchmark therefore measures more than visual
+similarity: it exposes which instruction units were completed, which
+prerequisites failed, and which downstream events became impossible to credit.
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Product-Showcase-3a8b67?style=flat-square" alt="Product showcase">
+  <img src="https://img.shields.io/badge/Cinematic-Narrative-2f75b5?style=flat-square" alt="Cinematic narrative">
+  <img src="https://img.shields.io/badge/Creative-Surreal-7659a8?style=flat-square" alt="Creative surreal">
+  <img src="https://img.shields.io/badge/Physical-Interaction-c65b66?style=flat-square" alt="Physical interaction">
+  <img src="https://img.shields.io/badge/Emotion-Atmosphere-b97914?style=flat-square" alt="Emotion and atmosphere">
+  <img src="https://img.shields.io/badge/Spatial-Orchestration-317d87?style=flat-square" alt="Spatial orchestration">
+  <img src="https://img.shields.io/badge/Embodied-Performance-a25574?style=flat-square" alt="Embodied performance">
+  <img src="https://img.shields.io/badge/Living-World-568b3f?style=flat-square" alt="Living world">
+</div>
+
+| Prompts | Macro / micro domains | Nodes | Edges | QA pairs | AutoRubric dimensions |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| **223** | **8 / 38** | **3,656** | **3,940** | **3,445** | **892** |
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/readme/benchmark.png" width="100%" alt="VGIF-Bench prompt, graph, and node statistics">
 </p>
 
-## What Each Sample Provides
+## Inside One Sample
 
-Each JSONL row contains:
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <img src="https://img.shields.io/badge/1-PROMPT-2f75b5?style=flat-square" alt="Prompt"><br><br>
+      A long-form generation instruction plus macro and micro domain metadata.
+    </td>
+    <td width="33%" valign="top">
+      <img src="https://img.shields.io/badge/2-ST--DAG-3a8b67?style=flat-square" alt="ST-DAG"><br><br>
+      Typed atomic nodes, directed edges, and Boolean prerequisite expressions.
+    </td>
+    <td width="33%" valign="top">
+      <img src="https://img.shields.io/badge/3-AUTORUBRIC-7659a8?style=flat-square" alt="AutoRubric"><br><br>
+      Prompt-specific criteria and 1-5 anchors for four perceptual dimensions.
+    </td>
+  </tr>
+</table>
 
-- the long-form generation `prompt` and domain metadata;
-- typed `st_dag.nodes` and dependency `st_dag.edges`;
-- atomic `original_qa_pairs` with Boolean dependency expressions;
-- prompt-specific `autorubric.dimensions` for cinematography, visual purity,
-  motion smoothness, and physics adherence;
-- diagnostic guidance for interpreting the generated video.
-
-The test split is the complete benchmark. It contains evaluation specifications
-and no training labels.
+Each JSONL row contains `prompt`, `domain_info`, `complexity`, `st_dag`,
+`original_qa_pairs`, and `autorubric`. The test split is the complete benchmark;
+it contains evaluation specifications and no training labels.
 
 ## Evaluation Story
 
@@ -82,19 +105,18 @@ and no training labels.
   <img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/readme/pipeline.png" width="100%" alt="VGIF-Score evaluation pipeline">
 </p>
 
-1. The prompt is decomposed into atomic, typed ST-DAG nodes.
-2. Dependency-aware QA checks visible completion and preserves prerequisite
-   relations between events.
-3. The instruction-conditioned AutoRubric evaluates four perceptual dimensions
-   with prompt-specific 1-5 anchors.
-4. Objective and subjective scores are combined for each prompt-video pair
-   before benchmark-level averaging.
+| Objective branch | Subjective branch | Final sample score |
+| :---: | :---: | :---: |
+| Dependency-aware atomic QA | Cin + Pur + Mot + Phy | `0.5 x S_obj + 0.5 x S_sub` |
 
-```text
-S_objective  = completed dependency-aware nodes / all nodes
-S_subjective = mean(Cin, Pur, Mot, Phy) / 5
-VGIF-Score   = 0.5 * S_objective + 0.5 * S_subjective
-```
+The four rubric ratings use a 1-5 scale and are normalized as
+`S_sub = mean(Cin, Pur, Mot, Phy) / 5`. Objective, subjective, and VGIF scores
+are computed per prompt-video pair before benchmark-level averaging.
+
+<p align="center">
+  <a href="https://pris-cv.github.io/VGIF-SCORE/#case-explorer"><img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/readme/diagnosis.png" width="100%" alt="Dependency-aware causal chain diagnosis"></a>
+</p>
+<p align="center"><sub>Follow a missed atomic requirement into its dependency-blocked downstream events.</sub></p>
 
 ## Load the Dataset
 
@@ -102,12 +124,17 @@ VGIF-Score   = 0.5 * S_objective + 0.5 * S_subjective
 from datasets import load_dataset
 
 dataset = load_dataset("Notyourkev/VGIF-Bench", split="test")
-print(dataset[0]["prompt"])
+sample = dataset[0]
+
+print(sample["prompt"])
+print(sample["st_dag"]["nodes"][:2])
+print(sample["original_qa_pairs"][:2])
 ```
 
 The repository is public; authentication is not required for loading.
 
-## Validate the Export
+<details>
+<summary><strong>Validate the canonical export</strong></summary>
 
 From the source repository root:
 
@@ -117,12 +144,15 @@ python code/benchmark/build_vgif_bench.py --validate-only
 
 The validator checks sample identity, node and edge references, DAG acyclicity,
 QA dependency syntax, rubric schema, and camera-ready totals.
+</details>
 
-## License
+<details>
+<summary><strong>Dataset license</strong></summary>
 
 VGIF-Bench is released under the Creative Commons Attribution-NonCommercial
 4.0 International License (`CC BY-NC 4.0`). See `LICENSE` for attribution and
 usage requirements.
+</details>
 
 ## Citation
 

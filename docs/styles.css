@@ -160,7 +160,7 @@ button {
   overflow: hidden;
   color: var(--white);
   background-color: #090d0c;
-  background-image: url("assets/domain_collage_v2.jpg");
+  background-image: url("assets/domain_collage_v2.jpg?v=20260725");
   background-position: center;
   background-size: cover;
 }
