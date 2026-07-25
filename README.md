@@ -8,12 +8,6 @@
     <a href="https://arxiv.org/abs/2607.13527"><img src="https://img.shields.io/badge/arXiv-2607.13527-c43b3b?style=for-the-badge&logo=arxiv&logoColor=white" alt="Read the arXiv paper"></a>
     <a href="https://huggingface.co/datasets/Notyourkev/VGIF-Bench"><img src="https://img.shields.io/badge/Hugging%20Face-VGIF--Bench-f6c344?style=for-the-badge&logo=huggingface&logoColor=111111" alt="Open VGIF-Bench on Hugging Face"></a>
   </p>
-  <p>
-    <a href="#the-method"><img src="https://img.shields.io/badge/01-Method-3a8b67?style=flat-square" alt="Jump to method"></a>
-    <a href="#vgif-bench"><img src="https://img.shields.io/badge/02-Benchmark-7659a8?style=flat-square" alt="Jump to benchmark"></a>
-    <a href="#read-a-failure-trace"><img src="https://img.shields.io/badge/03-Diagnosis-c65b66?style=flat-square" alt="Jump to diagnosis"></a>
-    <a href="#use-the-code"><img src="https://img.shields.io/badge/04-Code-b97914?style=flat-square" alt="Jump to code"></a>
-  </p>
 </div>
 
 <p align="center">
@@ -21,13 +15,9 @@
 </p>
 <p align="center"><sub>32 generated frames &middot; 5 commercial models &middot; 8 macro domains &middot; one dependency-aware evaluation framework</sub></p>
 
-<div align="center">
-  <img src="https://img.shields.io/badge/Prompts-223-2f75b5?style=flat-square" alt="223 prompts">
-  <img src="https://img.shields.io/badge/ST--DAG%20Nodes-3%2C656-3a8b67?style=flat-square" alt="3656 ST-DAG nodes">
-  <img src="https://img.shields.io/badge/Dependencies-3%2C940-c65b66?style=flat-square" alt="3940 dependency edges">
-  <img src="https://img.shields.io/badge/Models-14-7659a8?style=flat-square" alt="14 evaluated models">
-  <img src="https://img.shields.io/badge/Micro%20Domains-38-b97914?style=flat-square" alt="38 micro domains">
-</div>
+| Prompts | ST-DAG nodes | Dependencies | Models | Macro / micro domains |
+| :---: | :---: | :---: | :---: | :---: |
+| **223** | **3,656** | **3,940** | **14** | **8 / 38** |
 
 ## The Problem
 
@@ -46,24 +36,13 @@ result remains perceptually convincing.
   <img src="docs/assets/readme/pipeline.png" width="100%" alt="VGIF-Score evaluation pipeline">
 </p>
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <img src="https://img.shields.io/badge/OBJECTIVE-Instruction%20Completion-3a8b67?style=flat-square" alt="Objective instruction completion"><br><br>
-      <strong>Prompt &rarr; ST-DAG &rarr; atomic QA</strong><br><br>
-      The prompt is decomposed into typed entities, attributes, locations, actions, states, and causal relations. A node receives credit only when its visual question and dependency expression both pass.
-    </td>
-    <td width="50%" valign="top">
-      <img src="https://img.shields.io/badge/SUBJECTIVE-Visual%20Satisfaction-7659a8?style=flat-square" alt="Subjective visual satisfaction"><br><br>
-      <strong>Prompt &rarr; AutoRubric &rarr; four judgments</strong><br><br>
-      An instruction-conditioned rubric scores cinematography, visual purity, motion smoothness, and physics adherence with prompt-specific 1-5 anchors.
-    </td>
-  </tr>
-</table>
-
-| Dependency-aware completion | Prompt-conditioned satisfaction | Sample-level score |
+| Evaluation branch | Objective completion | Subjective satisfaction |
 | :---: | :---: | :---: |
-| `S_obj = completed nodes / all nodes` | `S_sub = mean(Cin, Pur, Mot, Phy) / 5` | `VGIF = 0.5 x S_obj + 0.5 x S_sub` |
+| **Flow** | Prompt &rarr; ST-DAG &rarr; atomic QA | Prompt &rarr; AutoRubric &rarr; four judgments |
+| **Evaluates** | Dependency-aware instruction completion | Cinematography, purity, motion, and physics |
+| **Normalized score** | `S_obj = completed nodes / all nodes` | `S_sub = mean(Cin, Pur, Mot, Phy) / 5` |
+
+<p align="center"><strong>VGIF(sample) = 0.5 x S_obj + 0.5 x S_sub</strong></p>
 
 Objective, subjective, and VGIF scores are computed **for each prompt-video
 pair first** and then averaged over the benchmark. This preserves the sample as
@@ -72,19 +51,8 @@ diagnostics.
 
 ## VGIF-Bench
 
-<div align="center">
-  <img src="https://img.shields.io/badge/Product-Showcase-3a8b67?style=flat-square" alt="Product showcase">
-  <img src="https://img.shields.io/badge/Cinematic-Narrative-2f75b5?style=flat-square" alt="Cinematic narrative">
-  <img src="https://img.shields.io/badge/Creative-Surreal-7659a8?style=flat-square" alt="Creative surreal">
-  <img src="https://img.shields.io/badge/Physical-Interaction-c65b66?style=flat-square" alt="Physical interaction">
-  <img src="https://img.shields.io/badge/Emotion-Atmosphere-b97914?style=flat-square" alt="Emotion and atmosphere">
-  <img src="https://img.shields.io/badge/Spatial-Orchestration-317d87?style=flat-square" alt="Spatial orchestration">
-  <img src="https://img.shields.io/badge/Embodied-Performance-a25574?style=flat-square" alt="Embodied performance">
-  <img src="https://img.shields.io/badge/Living-World-568b3f?style=flat-square" alt="Living world">
-</div>
-
 | Prompts | Macro domains | Micro domains | ST-DAG nodes | Dependency edges | QA pairs | Models |
-| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **223** | **8** | **38** | **3,656** | **3,940** | **3,445** | **14** |
 
 <p align="center">
@@ -92,7 +60,10 @@ diagnostics.
 </p>
 
 VGIF-Bench is built around long, dependency-rich prompts rather than isolated
-visual attributes. Explore the full [benchmark landscape](https://pris-cv.github.io/VGIF-SCORE/#benchmark-comparison)
+visual attributes. Its eight macro domains cover product showcase, cinematic
+narrative, surreal expression, physical interaction, emotion, spatial
+orchestration, embodied performance, and the living world. Explore the full
+[benchmark landscape](https://pris-cv.github.io/VGIF-SCORE/#benchmark-comparison)
 or compare scores across all [8 macro and 38 micro domains](https://pris-cv.github.io/VGIF-SCORE/#leaderboard).
 
 ## Read a Failure Trace
@@ -182,7 +153,7 @@ python -m unittest discover -s tests -v
 ## Repository
 
 | Path | Purpose |
-| --- | --- |
+| :---: | :---: |
 | `code/benchmark/` | Dataset validation, result manifests, and public visual exports |
 | `code/evaluation/` | VLM QA, AutoRubric, dependency propagation, and VGIF scoring |
 | `code/generation/` | Provider-specific and open-model generation scripts |

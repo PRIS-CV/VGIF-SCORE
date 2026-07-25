@@ -25,12 +25,6 @@ configs:
     <a href="https://arxiv.org/abs/2607.13527"><img src="https://img.shields.io/badge/arXiv-2607.13527-c43b3b?style=for-the-badge&logo=arxiv&logoColor=white" alt="Read the arXiv paper"></a>
     <a href="https://github.com/PRIS-CV/VGIF-SCORE"><img src="https://img.shields.io/badge/GitHub-Code-7659a8?style=for-the-badge&logo=github&logoColor=white" alt="Open the source code"></a>
   </p>
-  <p>
-    <a href="#why-vgif-bench"><img src="https://img.shields.io/badge/01-Why-3a8b67?style=flat-square" alt="Jump to benchmark motivation"></a>
-    <a href="#inside-one-sample"><img src="https://img.shields.io/badge/02-Schema-7659a8?style=flat-square" alt="Jump to sample schema"></a>
-    <a href="#evaluation-story"><img src="https://img.shields.io/badge/03-Evaluation-c65b66?style=flat-square" alt="Jump to evaluation method"></a>
-    <a href="#load-the-dataset"><img src="https://img.shields.io/badge/04-Load-b97914?style=flat-square" alt="Jump to loading instructions"></a>
-  </p>
 </div>
 
 <p align="center">
@@ -38,38 +32,26 @@ configs:
 </p>
 <p align="center"><sub>32 generated frames &middot; 5 commercial models &middot; 8 macro domains &middot; 38 micro domains</sub></p>
 
-<div align="center">
-  <img src="https://img.shields.io/badge/Split-Test%20only-2f75b5?style=flat-square" alt="Test split">
-  <img src="https://img.shields.io/badge/Prompts-223-3a8b67?style=flat-square" alt="223 prompts">
-  <img src="https://img.shields.io/badge/ST--DAG%20Nodes-3%2C656-c65b66?style=flat-square" alt="3656 ST-DAG nodes">
-  <img src="https://img.shields.io/badge/Domains-8%20macro%20%7C%2038%20micro-7659a8?style=flat-square" alt="8 macro and 38 micro domains">
-  <img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-b97914?style=flat-square" alt="CC BY-NC 4.0">
-</div>
+| Split | Prompts | ST-DAG nodes | Macro / micro domains | License |
+| :---: | :---: | :---: | :---: | :---: |
+| **Test** | **223** | **3,656** | **8 / 38** | **CC BY-NC 4.0** |
 
 ## Why VGIF-Bench
 
-> A video may look polished while quietly dropping the event that should
-> trigger a transformation, changing the wrong object, or breaking the
-> requested temporal order.
+<p align="center"><em>A polished video can still drop the trigger action, change the wrong object, or break the requested temporal order.</em></p>
 
 VGIF-Bench represents every prompt as an explicit **Spatio-Temporal Directed
 Acyclic Graph (ST-DAG)**. The benchmark therefore measures more than visual
 similarity: it exposes which instruction units were completed, which
 prerequisites failed, and which downstream events became impossible to credit.
 
-<div align="center">
-  <img src="https://img.shields.io/badge/Product-Showcase-3a8b67?style=flat-square" alt="Product showcase">
-  <img src="https://img.shields.io/badge/Cinematic-Narrative-2f75b5?style=flat-square" alt="Cinematic narrative">
-  <img src="https://img.shields.io/badge/Creative-Surreal-7659a8?style=flat-square" alt="Creative surreal">
-  <img src="https://img.shields.io/badge/Physical-Interaction-c65b66?style=flat-square" alt="Physical interaction">
-  <img src="https://img.shields.io/badge/Emotion-Atmosphere-b97914?style=flat-square" alt="Emotion and atmosphere">
-  <img src="https://img.shields.io/badge/Spatial-Orchestration-317d87?style=flat-square" alt="Spatial orchestration">
-  <img src="https://img.shields.io/badge/Embodied-Performance-a25574?style=flat-square" alt="Embodied performance">
-  <img src="https://img.shields.io/badge/Living-World-568b3f?style=flat-square" alt="Living world">
-</div>
+<p align="center">
+  <strong>Product Showcase</strong> &middot; <strong>Cinematic Narrative</strong> &middot; <strong>Creative &amp; Surreal</strong> &middot; <strong>Physical Interaction</strong><br>
+  <strong>Emotion &amp; Atmosphere</strong> &middot; <strong>Spatial Orchestration</strong> &middot; <strong>Embodied Performance</strong> &middot; <strong>Living World</strong>
+</p>
 
 | Prompts | Macro / micro domains | Nodes | Edges | QA pairs | AutoRubric dimensions |
-| ---: | ---: | ---: | ---: | ---: | ---: |
+| :---: | :---: | :---: | :---: | :---: | :---: |
 | **223** | **8 / 38** | **3,656** | **3,940** | **3,445** | **892** |
 
 <p align="center">
@@ -78,22 +60,12 @@ prerequisites failed, and which downstream events became impossible to credit.
 
 ## Inside One Sample
 
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <img src="https://img.shields.io/badge/1-PROMPT-2f75b5?style=flat-square" alt="Prompt"><br><br>
-      A long-form generation instruction plus macro and micro domain metadata.
-    </td>
-    <td width="33%" valign="top">
-      <img src="https://img.shields.io/badge/2-ST--DAG-3a8b67?style=flat-square" alt="ST-DAG"><br><br>
-      Typed atomic nodes, directed edges, and Boolean prerequisite expressions.
-    </td>
-    <td width="33%" valign="top">
-      <img src="https://img.shields.io/badge/3-AUTORUBRIC-7659a8?style=flat-square" alt="AutoRubric"><br><br>
-      Prompt-specific criteria and 1-5 anchors for four perceptual dimensions.
-    </td>
-  </tr>
-</table>
+| Component | Included content | Evaluation role |
+| :---: | :---: | :---: |
+| **Prompt** | Long-form instruction and domain metadata | Defines the requested video |
+| **ST-DAG** | Typed nodes, edges, and Boolean dependencies | Makes instruction structure explicit |
+| **Atomic QA** | Node-level visual questions | Measures dependency-aware completion |
+| **AutoRubric** | Prompt-specific criteria and 1-5 anchors | Measures visual satisfaction |
 
 Each JSONL row contains `prompt`, `domain_info`, `complexity`, `st_dag`,
 `original_qa_pairs`, and `autorubric`. The test split is the complete benchmark;
