@@ -32,9 +32,26 @@ configs:
 </p>
 <p align="center"><sub>32 generated frames &middot; 5 commercial models &middot; 8 macro domains &middot; 38 micro domains</sub></p>
 
-| Split | Prompts | ST-DAG nodes | Macro / micro domains | License |
-| :---: | :---: | :---: | :---: | :---: |
-| **Test** | **223** | **3,656** | **8 / 38** | **CC BY-NC 4.0** |
+<table align="center" style="margin-left: auto; margin-right: auto;">
+  <thead>
+    <tr>
+      <th align="center" style="text-align: center;">Split</th>
+      <th align="center" style="text-align: center;">Prompts</th>
+      <th align="center" style="text-align: center;">ST-DAG nodes</th>
+      <th align="center" style="text-align: center;">Macro / micro domains</th>
+      <th align="center" style="text-align: center;">License</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" style="text-align: center;"><strong>Test</strong></td>
+      <td align="center" style="text-align: center;"><strong>223</strong></td>
+      <td align="center" style="text-align: center;"><strong>3,656</strong></td>
+      <td align="center" style="text-align: center;"><strong>8 / 38</strong></td>
+      <td align="center" style="text-align: center;"><strong>CC BY-NC 4.0</strong></td>
+    </tr>
+  </tbody>
+</table>
 
 ## Why VGIF-Bench
 
@@ -50,9 +67,28 @@ prerequisites failed, and which downstream events became impossible to credit.
   <strong>Emotion &amp; Atmosphere</strong> &middot; <strong>Spatial Orchestration</strong> &middot; <strong>Embodied Performance</strong> &middot; <strong>Living World</strong>
 </p>
 
-| Prompts | Macro / micro domains | Nodes | Edges | QA pairs | AutoRubric dimensions |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| **223** | **8 / 38** | **3,656** | **3,940** | **3,445** | **892** |
+<table align="center" style="margin-left: auto; margin-right: auto;">
+  <thead>
+    <tr>
+      <th align="center" style="text-align: center;">Prompts</th>
+      <th align="center" style="text-align: center;">Macro / micro domains</th>
+      <th align="center" style="text-align: center;">Nodes</th>
+      <th align="center" style="text-align: center;">Edges</th>
+      <th align="center" style="text-align: center;">QA pairs</th>
+      <th align="center" style="text-align: center;">AutoRubric dimensions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" style="text-align: center;"><strong>223</strong></td>
+      <td align="center" style="text-align: center;"><strong>8 / 38</strong></td>
+      <td align="center" style="text-align: center;"><strong>3,656</strong></td>
+      <td align="center" style="text-align: center;"><strong>3,940</strong></td>
+      <td align="center" style="text-align: center;"><strong>3,445</strong></td>
+      <td align="center" style="text-align: center;"><strong>892</strong></td>
+    </tr>
+  </tbody>
+</table>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/readme/benchmark.png" width="100%" alt="VGIF-Bench prompt, graph, and node statistics">
@@ -60,12 +96,37 @@ prerequisites failed, and which downstream events became impossible to credit.
 
 ## Inside One Sample
 
-| Component | Included content | Evaluation role |
-| :---: | :---: | :---: |
-| **Prompt** | Long-form instruction and domain metadata | Defines the requested video |
-| **ST-DAG** | Typed nodes, edges, and Boolean dependencies | Makes instruction structure explicit |
-| **Atomic QA** | Node-level visual questions | Measures dependency-aware completion |
-| **AutoRubric** | Prompt-specific criteria and 1-5 anchors | Measures visual satisfaction |
+<table align="center" style="margin-left: auto; margin-right: auto;">
+  <thead>
+    <tr>
+      <th align="center" style="text-align: center;">Component</th>
+      <th align="center" style="text-align: center;">Included content</th>
+      <th align="center" style="text-align: center;">Evaluation role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" style="text-align: center;"><strong>Prompt</strong></td>
+      <td align="center" style="text-align: center;">Long-form instruction and domain metadata</td>
+      <td align="center" style="text-align: center;">Defines the requested video</td>
+    </tr>
+    <tr>
+      <td align="center" style="text-align: center;"><strong>ST-DAG</strong></td>
+      <td align="center" style="text-align: center;">Typed nodes, edges, and Boolean dependencies</td>
+      <td align="center" style="text-align: center;">Makes instruction structure explicit</td>
+    </tr>
+    <tr>
+      <td align="center" style="text-align: center;"><strong>Atomic QA</strong></td>
+      <td align="center" style="text-align: center;">Node-level visual questions</td>
+      <td align="center" style="text-align: center;">Measures dependency-aware completion</td>
+    </tr>
+    <tr>
+      <td align="center" style="text-align: center;"><strong>AutoRubric</strong></td>
+      <td align="center" style="text-align: center;">Prompt-specific criteria and 1-5 anchors</td>
+      <td align="center" style="text-align: center;">Measures visual satisfaction</td>
+    </tr>
+  </tbody>
+</table>
 
 Each JSONL row contains `prompt`, `domain_info`, `complexity`, `st_dag`,
 `original_qa_pairs`, and `autorubric`. The test split is the complete benchmark;
@@ -77,9 +138,22 @@ it contains evaluation specifications and no training labels.
   <img src="https://raw.githubusercontent.com/PRIS-CV/VGIF-SCORE/main/docs/assets/readme/pipeline.png" width="100%" alt="VGIF-Score evaluation pipeline">
 </p>
 
-| Objective branch | Subjective branch | Final sample score |
-| :---: | :---: | :---: |
-| Dependency-aware atomic QA | Cin + Pur + Mot + Phy | `0.5 x S_obj + 0.5 x S_sub` |
+<table align="center" style="margin-left: auto; margin-right: auto;">
+  <thead>
+    <tr>
+      <th align="center" style="text-align: center;">Objective branch</th>
+      <th align="center" style="text-align: center;">Subjective branch</th>
+      <th align="center" style="text-align: center;">Final sample score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" style="text-align: center;">Dependency-aware atomic QA</td>
+      <td align="center" style="text-align: center;">Cin + Pur + Mot + Phy</td>
+      <td align="center" style="text-align: center;"><code>0.5 x S_obj + 0.5 x S_sub</code></td>
+    </tr>
+  </tbody>
+</table>
 
 The four rubric ratings use a 1-5 scale and are normalized as
 `S_sub = mean(Cin, Pur, Mot, Phy) / 5`. Objective, subjective, and VGIF scores
