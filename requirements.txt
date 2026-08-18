@@ -6,4 +6,5 @@ opencv-python>=4.9
 pandas>=2.2
 Pillow>=10.0
 qrcode[pil]>=8.2
+resvg-py>=0.4
 requests>=2.31
