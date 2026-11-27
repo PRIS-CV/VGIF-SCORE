@@ -160,7 +160,6 @@ python -m unittest discover -s tests -v
 | `code/plotting/` | Camera-ready analysis and figure scripts |
 | `data/vgif_bench/` | Hugging Face-ready JSONL export and statistics |
 | `docs/` | Interactive project page and curated public media |
-| `camera_ready_paper_id_499/` | Camera-ready PDF and LaTeX sources |
 
 The code is released under Apache-2.0. VGIF-Bench is released separately under
 CC BY-NC 4.0. See `LICENSE` and `data/vgif_bench/LICENSE`.
